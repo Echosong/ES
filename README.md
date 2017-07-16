@@ -7,8 +7,25 @@
 
 ### route
 
+1. 配置路由规则
+
+
 ### controller
+
+1. baseController
 
 ### model
 
+1. 查询
+
+2. 新增
+
+3. 更新
+
+4. 删除
+
 ### view
+
+1. 模板引擎
+
+2. 母版
