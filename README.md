@@ -104,6 +104,7 @@ $_GET['a'] 直接调用，如果么没有指定相应http 动作时间，直接�
 
 另外在写http 接口时候我们可以直接 Restful api 格式用http 请求自动对应
 比如
+
     /api/good
     会路由到 controller/api/goodController.php 文件 下面 的 
     public function get(){} 函数
