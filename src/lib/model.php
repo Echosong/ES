@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 class Model
@@ -10,12 +10,16 @@ class Model
     private $_slave_db;
     private $sql = array();
 
-    public function __construct ($table_name = null) {
+    public function __construct($table_name = null)
+    {
         global $GLOBALS;
-        if ($table_name) $this->table_name = $GLOBALS['prefix'] . $table_name;
+        if ($table_name) {
+            $this->table_name = $GLOBALS['prefix'] . $table_name;
+        }
     }
 
-    public function findAll ($conditions = array(), $sort = null, $fields = '*', $limit = null) {
+    public function findAll($conditions = array(), $sort = null, $fields = '*', $limit = null)
+    {
         $sort = !empty($sort) ? ' ORDER BY ' . $sort : '';
         $conditions = $this->_where($conditions);
         $sql = ' FROM ' . $this->table_name . $conditions["_where"];
@@ -30,54 +34,66 @@ class Model
         return $this->query('SELECT ' . $fields . $sql . $sort . $limit, $conditions["_bindParams"]);
     }
 
-    public function find ($conditions = array(), $sort = null, $fields = '*') {
+    public function find($conditions = array(), $sort = null, $fields = '*')
+    {
         $res = $this->findAll($conditions, $sort, $fields, 1);
         return !empty($res) ? array_pop($res) : false;
     }
 
-    public function update ($conditions, $row) {
+    public function update($conditions, $row)
+    {
         $values = array();
         foreach ($row as $k => $v) {
             $values[":M_UPDATE_" . $k] = $v;
             $setstr[] = '`' . $k . "`=" . ":M_UPDATE_" . $k;
         }
         $conditions = $this->_where($conditions);
-        return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ', $setstr) . $conditions["_where"], $conditions["_bindParams"] + $values);
+        return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ', $setstr) . $conditions["_where"],
+            $conditions["_bindParams"] + $values);
     }
 
-    public function delete ($conditions) {
+    public function delete($conditions)
+    {
         $conditions = $this->_where($conditions);
         return $this->execute("DELETE FROM " . $this->table_name . $conditions["_where"], $conditions["_bindParams"]);
     }
 
-    public function create ($row) {
+    public function create($row)
+    {
         $values = array();
         foreach ($row as $k => $v) {
             $keys[] = "`{$k}`";
             $values[":" . $k] = $v;
             $marks[] = ":" . $k;
         }
-        $this->execute("INSERT INTO " . $this->table_name . " (" . implode(', ', $keys) . ") VALUES (" . implode(', ', $marks) . ")", $values);
+        $this->execute("INSERT INTO " . $this->table_name . " (" . implode(', ', $keys) . ") VALUES (" . implode(', ',
+                $marks) . ")", $values);
         return $this->_master_db->lastInsertId();
     }
 
-    public function findCount ($conditions) {
+    public function findCount($conditions)
+    {
         $conditions = $this->_where($conditions);
-        $count = $this->query("SELECT COUNT(*) AS M_COUNTER FROM " . $this->table_name . $conditions["_where"], $conditions["_bindParams"]);
+        $count = $this->query("SELECT COUNT(*) AS M_COUNTER FROM " . $this->table_name . $conditions["_where"],
+            $conditions["_bindParams"]);
         return isset($count[0]['M_COUNTER']) && $count[0]['M_COUNTER'] ? $count[0]['M_COUNTER'] : 0;
     }
 
-    public function findSum ($conditions, $field) {
+    public function findSum($conditions, $field)
+    {
         $conditions = $this->_where($conditions);
-        $sum = $this->query("SELECT sum({$field}) AS M_COUNTER FROM " . $this->table_name . $conditions["_where"], $conditions["_bindParams"]);
+        $sum = $this->query("SELECT sum({$field}) AS M_COUNTER FROM " . $this->table_name . $conditions["_where"],
+            $conditions["_bindParams"]);
         return isset($sum[0]['M_COUNTER']) && $sum[0]['M_COUNTER'] ? $sum[0]['M_COUNTER'] : 0;
     }
 
-    public function dumpSql () {
+    public function dumpSql()
+    {
         return $this->sql;
     }
 
-    public function pager ($page, $pageSize = 10, $scope = 10, $total) {
+    public function pager($page, $pageSize = 10, $scope = 10, $total)
+    {
         $this->page = null;
         if ($total > $pageSize) {
             $total_page = ceil($total / $pageSize);
@@ -107,34 +123,45 @@ class Model
         return $this->page;
     }
 
-    public function query ($sql, $params = array()) {
+    public function query($sql, $params = array())
+    {
         return $this->execute($sql, $params, true);
     }
 
-    public function execute ($sql, $params = array(), $is_query = false) {
+    public function execute($sql, $params = array(), $is_query = false)
+    {
         $this->sql[] = $sql;
         if ($is_query && is_object($this->_slave_db)) {
             $sth = $this->_slave_db->prepare($sql);
         } else {
-            if (!($this->_master_db)) $this->setDB('default');
+            if (!($this->_master_db)) {
+                $this->setDB('default');
+            }
             $sth = $this->_master_db->prepare($sql);
         }
 
         if (is_array($params) && !empty($params)) {
-            foreach ($params as $k => &$v) $sth->bindParam($k, $v);
+            foreach ($params as $k => &$v) {
+                $sth->bindParam($k, $v);
+            }
         }
-        if ($sth->execute()) return $is_query ? $sth->fetchAll(PDO::FETCH_ASSOC) : $sth->rowCount();
+        if ($sth->execute()) {
+            return $is_query ? $sth->fetchAll(PDO::FETCH_ASSOC) : $sth->rowCount();
+        }
         $err = $sth->errorInfo();
         err('Database SQL: "' . $sql . '", ErrorInfo: ' . $err[2], 1);
     }
 
-    public function setDB ($db_config_key = 'default', $is_readonly = false) {
+    public function setDB($db_config_key = 'default', $is_readonly = false)
+    {
         if ('default' == $db_config_key) {
             $db_config = $GLOBALS['mysql'];
-        } else if (!empty($GLOBALS['mysql'][$db_config_key])) {
-            $db_config = $GLOBALS['mysql'][$db_config_key];
         } else {
-            err("Database Err: Db config '$db_config_key' is not exists!");
+            if (!empty($GLOBALS['mysql'][$db_config_key])) {
+                $db_config = $GLOBALS['mysql'][$db_config_key];
+            } else {
+                err("Database Err: Db config '$db_config_key' is not exists!");
+            }
         }
         if ($is_readonly) {
             $this->_slave_db = $this->_db_instance($db_config, $db_config_key);
@@ -143,10 +170,13 @@ class Model
         }
     }
 
-    private function _db_instance ($db_config, $db_config_key) {
+    private function _db_instance($db_config, $db_config_key)
+    {
         if (empty($GLOBALS['mysql_instances'][$db_config_key])) {
             try {
-                $GLOBALS['mysql_instances'][$db_config_key] = new PDO('mysql:dbname=' . $db_config['MYSQL_DB'] . ';host=' . $db_config['MYSQL_HOST'] . ';port=' . $db_config['MYSQL_PORT'], $db_config['MYSQL_USER'], $db_config['MYSQL_PASS'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'' . $db_config['MYSQL_CHARSET'] . '\''));
+                $GLOBALS['mysql_instances'][$db_config_key] = new PDO('mysql:dbname=' . $db_config['MYSQL_DB'] . ';host=' . $db_config['MYSQL_HOST'] . ';port=' . $db_config['MYSQL_PORT'],
+                    $db_config['MYSQL_USER'], $db_config['MYSQL_PASS'],
+                    array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'' . $db_config['MYSQL_CHARSET'] . '\''));
             } catch (PDOException $e) {
                 err('Database Err: ' . $e->getMessage());
             }
@@ -154,7 +184,8 @@ class Model
         return $GLOBALS['mysql_instances'][$db_config_key];
     }
 
-    private function _where ($conditions) {
+    private function _where($conditions)
+    {
         $result = array("_where" => " ", "_bindParams" => array());
         if (!$conditions) {
             return $result;
@@ -163,7 +194,9 @@ class Model
             $fieldss = array();
             $sql = null;
             $join = array();
-            if (isset($conditions[0]) && $sql = $conditions[0]) unset($conditions[0]);
+            if (isset($conditions[0]) && $sql = $conditions[0]) {
+                unset($conditions[0]);
+            }
             foreach ($conditions as $key => $condition) {
                 $optstr = substr($key, strlen($key) - 1, 1);
                 if ($optstr == '>' || $optstr == '<') {
@@ -178,7 +211,9 @@ class Model
                 }
                 $join[] = "`{$key}`{$optstr} :{$key}";
             }
-            if (!$sql) $sql = join(" AND ", $join);
+            if (!$sql) {
+                $sql = join(" AND ", $join);
+            }
             $result["_where"] = " WHERE " . $sql;
             $result["_bindParams"] = $conditions;
         } else {
