@@ -18,6 +18,7 @@ ES 是一款 极简，灵活， 高性能，扩建性强 的php 框架。 未开
   |--controller //控制器业务文件
   |--view //视图文件
   |--model //模型一般小型业务可以省略，数据操作直接放到controller 
+  |--config.php //全局配置文件，业务相关的配置也可以放这里，或者自己建立一个独立的配置文件index.php 文件引用
 |--res //静态资源
 |--index.php //入口文件
 
@@ -29,7 +30,54 @@ ES 是一款 极简，灵活， 高性能，扩建性强 的php 框架。 未开
 
 1. 配置路由规则
 
+ES 没有像些重型框架单独有 Route 配置， ES的想法很简单，主要分为 模块[m]，控制器[c]，动作[c] 来路由
+```php
+ 'rewrite' => array(
+        //设置模块 碰到 http://{host}/admin/ 认为进入了后台模块 数组 0 标识默认 m
+       'm'=>['web','admin','app','api'], 
+       'c'=>'main', //controller 默认值
+       'a'=>'index', //action 默认值,
+       'isRewrite'=> TRUE //是否开启伪静态 .htaccess 文件配置
+    ),
+```
+其中 m 为模块，一般我们开发小型web系统时候，后台（admin）、前端（web）、接口(api) 来划分结构； 大型一点的web系统，常根据业务进行模块划分，比如
+shop、order、user 等等模块划分。 实际划分就对应着 controller view 里面的文件夹的安排，一般的 一个模块对应其下面的一个文件夹，这样清晰的管理模块
+方便协作开发和解耦
+
+另外 配置中 m=>[api..] 数组就是划分的模块，对应地址栏会去选择 www.baidu.com/admin/con/index  域名部分后面的第一个 /admin/ 如果在配置中就表示为识别到的模块， 否者将模块默认为 m[0]
+实现代码可以参考 es：
+```
+$rewrite = $GLOBALS['rewrite'];
+if ($rewrite['isRewrite']) {
+    $route = explode("/", $_SERVER['PHP_SELF']);
+    if (!empty($rule[1])) {
+        if (in_array($rule[1], $rewrite['m'])) {
+            $_GET['m'] = $route[1];
+            list($_GET['c'], $_GET['a']) = array_slice($route, 2, 3);
+        } else {
+            $_GET['m'] = $rewrite['m'][0];
+            list($_GET['c'], $_GET['a']) = array_slice($route, 1, 2);
+        }
+    }
+}
+```
+
 2. 数据库配置
+
+数据库目前支持mysql
+```
+$dbb = array(
+    'mysql' => array(
+        'MYSQL_HOST' => '127.0.0.1', 
+        'MYSQL_PORT' => '3306',
+        'MYSQL_USER' => 'root',
+        'MYSQL_DB' => 'db_demo',
+        'MYSQL_PASS' => '123456',
+        'MYSQL_CHARSET' => 'utf8',
+    ),
+    'prefix' => 'mo_', //表前缀
+);
+```
 
 3. 业务自定义配置
 
