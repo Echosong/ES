@@ -93,6 +93,23 @@ $GLOBALS 全局 数组配置进行获取相应的配置项。
 
 #### Controller
 
+控制器 （Get, Post , Head , Put http）+$_Get['a'] 的函数，直接暴露给了请求，请求可以通过
+$_GET['a'] 直接调用，如果么没有指定相应http 动作时间，直接调用 public action+$_GET['a'] 的函数
+比如 客户端get请求
+    
+    /api/main/index
+    会路由到 controller/api/mainController.php 文件 下面 的 
+    public function getIndex(){} 函数，如果此函数不存在，会找个 
+    public function actionIndex(){} 函数
+
+另外在写http 接口时候我们可以直接 Restful api 格式用http 请求自动对应
+比如
+    /api/good
+    会路由到 controller/api/goodController.php 文件 下面 的 
+    public function get(){} 函数
+    public function post(){} 函数
+    ....已至restful Api接口写法
+
 ```php
 //获取视图数据源的值
 public function __get ($name)
@@ -124,7 +141,7 @@ baseController 在每个模块里面有父类，继承系统核心Controller 主
 
 es 数据库操作使用PDO pdo 本身对数据库操作，参数化，防治sql诸如， 请在使用元素sql 语句查询的时候，不要直接拼凑字符串。
 
-1. 查询
+#### 查询
 
 ```php
 //查询user表数据
@@ -161,7 +178,7 @@ public function findSum($conditions, $field)
 public function findCount($conditions)
 ```
 
-2. 新增
+####  新增
 
 ```php
 /** 表插入记录
@@ -179,7 +196,7 @@ $userDb->create(
     ]
 );
 ```
-3. 更新
+#### 更新
 ```php
 /**
  * @param 查询条件
@@ -196,7 +213,7 @@ $userDb->update(
 );
 ```
 
-4. 删除
+#### 删除
 ```php
 //按条件删除数据
 public function delete($conditions)
@@ -249,6 +266,9 @@ class P
 $p = new P();
 $p->test()
 ```
+
+## 支持常驻脚本
+
 
 ## 案列
 
