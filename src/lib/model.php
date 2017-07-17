@@ -17,7 +17,6 @@ class Model
             $this->table_name = $GLOBALS['prefix'] . $table_name;
         }
     }
-
     public function findAll($conditions = array(), $sort = null, $fields = '*', $limit = null)
     {
         $sort = !empty($sort) ? ' ORDER BY ' . $sort : '';
@@ -57,6 +56,7 @@ class Model
         $conditions = $this->_where($conditions);
         return $this->execute("DELETE FROM " . $this->table_name . $conditions["_where"], $conditions["_bindParams"]);
     }
+
 
     public function create($row)
     {

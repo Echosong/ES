@@ -115,22 +115,96 @@ public function display ($tpl_name, $return = false)
 
 baseController 在每个模块里面有父类，继承系统核心Controller 主要用来处理
 
-> fdsfdsf
-
-```php
-
-
-```
-
+ - 处理模块常用的业务（比如权限验证）
+ - 处理比如分页的数据展现样式
+ - 公共的业务处理在默认情况下没有model 那么把处理一些公共的数据操作业务也可以放到这里
+ - 做数据输出的过滤，比如同一个输入格式 {"code":0,"message":""} 诸如此类函数的处理
+ 
 ### 数据模型
+
+es 数据库操作使用PDO pdo 本身对数据库操作，参数化，防治sql诸如， 请在使用元素sql 语句查询的时候，不要直接拼凑字符串。
 
 1. 查询
 
+```php
+//查询user表数据
+$userDb = new Model("user");
+
+ /** 查询数据返回数据数组集合
+     * @param array 查询条件可以是数组，也可以直接是字符串 比如 ['id'=>1] 等效 "and id = 1"
+     * @param null 排序 如 " id desc"
+     * @param string 查詢表字段
+     * @param null $limit 这个参数比较关键，如果这个参数不为空将 可以分页
+     * @return mixed
+     */
+public function findAll ($conditions = array(), $sort = null, $fields = '*', $limit = null) 
+
+//分页查询
+$userData = $userDb->findAll('id> 1', 'id desc', '*', 10)
+
+//执行为上面的语句后
+$userDb->page 返回一个分页数组，模板里面可以根据这个数组去做一定处理
+一般情况BaseController 自定义个函数来拼凑html 显示
+或者直接 是前后端分离 json 直接打印给前端处理
+ 
+//查询单条数据
+public function find ($conditions = array(), $sort = null, $fields = '*')
+
+//sql 直接查询
+public function query($sql, $params = array())
+$user = $userDb->query("select * from mo_user where id=? ", ['id'=>1]);
+
+//查询统计量等同于 sum($field) 返回直接返回整型
+public function findSum($conditions, $field)
+
+//查询统计量等同于 count(1) 返回直接返回整型
+public function findCount($conditions)
+```
+
 2. 新增
 
+```php
+/** 表插入记录
+ * @param $row
+ * @return mixed
+ */
+public function create($row);
+
+演示
+$userDb = new Model('user');
+$userDb->create(
+    ['username'=>'es',
+      'password'=>'123456',
+      'sex'=>1
+    ]
+);
+```
 3. 更新
+```php
+/**
+ * @param 查询条件
+ * @param 更加的数据
+ * @return mixed
+ */
+public function update($conditions, $row)
+$userDb->update(
+    ['id'=>1],
+    ['username'=>'es',
+      'password'=>'123456',
+      'sex'=>1
+    ]
+);
+```
 
 4. 删除
+```php
+//按条件删除数据
+public function delete($conditions)
+
+$userDb = new Model('user');
+$userDb->delete(['id'=>1]);
+
+```
 
 ### 视图
 
