@@ -26,7 +26,7 @@ ES 是一款 极简，灵活， 高性能，扩建性强 的php 框架。 未开
 
 ## 具体实现功能
 
-### 配置
+### 配置文件
 
 #### 配置路由规则
 
@@ -89,13 +89,31 @@ $dbb = array(
  $GLOBALS = require(APP_PATH . '../config.php');
 $GLOBALS 全局 数组配置进行获取相应的配置项。
 
-### controller
+### 控制器
 
-1. Controller
+#### Controller
 
-2. basController
+```php
+//获取视图数据源的值
+public function __get ($name)
 
-### model
+//此函数设置的值可以在视图模板里直接使用
+public function __set ($name, $value)
+
+//处理，比如修改 添加 数据成功时候需要返回列表页， $msg 弹出的提示内容， $url 为列表页面的地址
+public function success ($msg, $url)
+
+//跟success 函数对应，直接返回上次操作页面，比如添加保存成功 再调回到添加页面
+public function history ($msg)
+
+//处理 action对应的模板 $tpl_name 模板地址 会自定到view 和controller 同名的文件夹
+public function display ($tpl_name, $return = false)
+
+```
+
+#### basController
+
+### 数据模型
 
 1. 查询
 
@@ -105,7 +123,7 @@ $GLOBALS 全局 数组配置进行获取相应的配置项。
 
 4. 删除
 
-### view
+### 视图
 
 1. 模板引擎
 
