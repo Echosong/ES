@@ -296,7 +296,23 @@ $p->test()
 
 ## 支持常驻脚本
 
+```php
+//能处理shell 请求
+if (!empty($argc)) {
+    $_POST['m'] = $argv[1];
+    $_POST['c'] = $argv[2];
+    $_POST['a'] = $argv[3];
+}
+$ php index.php m c a
+```
 
 ## 案列
 
 crm系统 https://github.com/Echosong/es_crm
+
+## 联系方式
+
+* bug和建议请发送至：`313690636@qq.com`；
+* 技术支持、技术合作或咨询请联系作者QQ:`313690636`、微信：`echosongfeigang`。
+* 博客地址 ：http://www.cnblogs.com/echosong/
+
