@@ -207,12 +207,48 @@ $userDb->delete(['id'=>1]);
 ```
 
 ### 视图
+es 采用php原始 脚本作为模板标记语言， 主要好处有
+- 不需要额外学习一门新的标识语言
+- 速度上也是最快的
+- 实现起来简单
 
-1. 模板引擎
-
+#### 模板引擎
+    php 原始脚本，只不过模板里面能够使用的变量 只能来源controller __set 所设置的变量
+    保证模板使用的数据安全，按需所给。
+    
 2. 母版
-
+    
+   引入母版机制(具体参考案例)
+ ```html
+<?php include $_view_obj->compile($__template_file); ?>
+```
+    
 ## 扩展引用
+es 本身最求灵活，极简单，所有没有引入其他重型模板的功能点，比如cache, 链接redis 等等，那么使用者，如果需要
+相关功能怎么办能
+
+步骤如下：
+
+- 配置扩展目录
+```php
+'plugins'=>['include','plugin'] //扩展目录
+```
+- 扩展目录里面放入扩展类[类文件直拷贝到目录里面]
+```php
+class P
+{
+    public function test(){
+        return '扩展';
+    }
+}
+
+```
+- 在controller action 里面
+
+```php
+$p = new P();
+$p->test()
+```
 
 ## 案列
 

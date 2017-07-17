@@ -15,7 +15,6 @@ class View
         extract($this->template_vals, EXTR_SKIP);
         $_view_obj = &$this;
         include $file;
-
         return ob_get_clean();
     }
 
