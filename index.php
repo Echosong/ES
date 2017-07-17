@@ -2,10 +2,11 @@
 
 define('APP_DIR', realpath('./'));
 
-if(!empty($argc)) {
+//能处理shell 请求
+if (!empty($argc)) {
     $_POST['m'] = $argv[1];
     $_POST['c'] = $argv[2];
     $_POST['a'] = $argv[3];
 }
 
-require(APP_DIR.'/protected/lib/es.php');
+require(APP_DIR . '/src/lib/es.php');
