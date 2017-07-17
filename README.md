@@ -70,15 +70,27 @@ if ($rewrite['isRewrite']) {
 
 ```php
 $dbb = array(
-    'mysql' => array(
-        'MYSQL_HOST' => '127.0.0.1', 
-        'MYSQL_PORT' => '3306',
-        'MYSQL_USER' => 'root',
-        'MYSQL_DB' => 'db_demo',
-        'MYSQL_PASS' => '123456',
-        'MYSQL_CHARSET' => 'utf8',
-    ),
-    'prefix' => 'mo_', //表前缀
+    'mysql' => [
+        //主库
+        'master'=>[
+            'MYSQL_HOST' => '127.0.0.1',
+            'MYSQL_PORT' => '3306',
+            'MYSQL_USER' => 'root',
+            'MYSQL_DB' => 'db_demo',
+            'MYSQL_PASS' => '123456',
+            'MYSQL_CHARSET' => 'utf8',
+        ],
+        //从库可以加入多个实例
+        'slave'=>[
+            'MYSQL_HOST' => '127.0.0.1',
+            'MYSQL_PORT' => '3306',
+            'MYSQL_USER' => 'root',
+            'MYSQL_DB' => 'db_demo',
+            'MYSQL_PASS' => '123456',
+            'MYSQL_CHARSET' => 'utf8',
+        ]
+    ],
+    'prefix' => 'mo_',
 );
 ```
 
@@ -141,6 +153,20 @@ baseController 在每个模块里面有父类，继承系统核心Controller 主
 ### 数据模型
 
 es 数据库操作使用PDO pdo 本身对数据库操作，参数化，防治sql诸如， 请在使用元素sql 语句查询的时候，不要直接拼凑字符串。
+
+#### 读写分离（多数库操作）
+
+```php
+
+ public function setDB($db_config_key = 'default', $is_readonly = false)
+
+ $userDb = new Model('user');
+ 
+//设置以下操作使用 sale0 实例
+ $userDb->setDb('sale0', true);
+ $user->...
+
+```
 
 #### 查询
 

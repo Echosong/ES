@@ -155,7 +155,7 @@ class Model
     public function setDB($db_config_key = 'default', $is_readonly = false)
     {
         if ('default' == $db_config_key) {
-            $db_config = $GLOBALS['mysql'];
+            $db_config = $GLOBALS['mysql']['master'];
         } else {
             if (!empty($GLOBALS['mysql'][$db_config_key])) {
                 $db_config = $GLOBALS['mysql'][$db_config_key];

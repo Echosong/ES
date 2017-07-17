@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/README.md" line="135" />
+    <bookmark url="file://$PROJECT_DIR$/README.md" line="147" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3df0c873-d8ce-45d5-8727-37241d04f301" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/config.php" afterPath="$PROJECT_DIR$/src/config.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/lib/model.php" afterPath="$PROJECT_DIR$/src/lib/model.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -51,13 +53,13 @@
       <file leaf-file-name="model.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/lib/model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="53" column="5" lean-forward="true" selection-start-line="53" selection-start-column="3" selection-end-line="53" selection-end-column="39" />
+            <state relative-caret-position="348">
+              <caret line="154" column="7" lean-forward="true" selection-start-line="154" selection-start-column="3" selection-end-line="154" selection-end-column="75" />
               <folding>
-                <marker date="1500272899898" expanded="true" signature="1979:1991" ph="DELETE FROM " />
-                <marker date="1500272899898" expanded="true" signature="2313:2436" ph="INSERT INTO ${$this-&gt;table_name}... " />
-                <marker date="1500272899898" expanded="true" signature="2636:2670" ph="SELECT COUNT... ${$this-&gt;table_name}" />
-                <marker date="1500272899898" expanded="true" signature="3000:3039" ph="SELECT sum($... " />
+                <marker date="1500277045834" expanded="true" signature="1979:1991" ph="DELETE FROM " />
+                <marker date="1500277045834" expanded="true" signature="2313:2436" ph="INSERT INTO ${$this-&gt;table_name}... " />
+                <marker date="1500277045834" expanded="true" signature="2636:2670" ph="SELECT COUNT... ${$this-&gt;table_name}" />
+                <marker date="1500277045834" expanded="true" signature="3000:3039" ph="SELECT sum($... " />
               </folding>
             </state>
           </provider>
@@ -67,8 +69,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="587">
-                <caret line="106" column="0" lean-forward="true" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
+              <first_editor relative-caret-position="264">
+                <caret line="156" column="4" lean-forward="false" selection-start-line="156" selection-start-column="4" selection-end-line="156" selection-end-column="4" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -76,37 +78,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="view.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/lib/view.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="16" column="22" lean-forward="false" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="layout.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/view/web/layout.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="563">
-              <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="55" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="11" column="8" lean-forward="false" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="41" />
+            <state relative-caret-position="308">
+              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>setDB</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -116,8 +103,9 @@
       <list>
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/src/lib/es.php" />
-        <option value="$PROJECT_DIR$/src/lib/model.php" />
         <option value="$PROJECT_DIR$/src/lib/view.php" />
+        <option value="$PROJECT_DIR$/src/lib/model.php" />
+        <option value="$PROJECT_DIR$/src/config.php" />
         <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
@@ -310,12 +298,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1500263619970</updated>
-      <workItem from="1500263621260" duration="6215000" />
+      <workItem from="1500263621260" duration="7926000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6215000" />
+    <option name="totallyTimeSpent" value="7926000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -351,6 +339,43 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/lib/view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="16" column="22" lean-forward="false" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/web/layout.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="563">
+          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lib/model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="154" column="7" lean-forward="true" selection-start-line="154" selection-start-column="3" selection-end-line="154" selection-end-column="75" />
+          <folding>
+            <marker date="1500277045834" expanded="true" signature="1979:1991" ph="DELETE FROM " />
+            <marker date="1500277045834" expanded="true" signature="2313:2436" ph="INSERT INTO ${$this-&gt;table_name}... " />
+            <marker date="1500277045834" expanded="true" signature="2636:2670" ph="SELECT COUNT... ${$this-&gt;table_name}" />
+            <marker date="1500277045834" expanded="true" signature="3000:3039" ph="SELECT sum($... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
@@ -375,48 +400,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/lib/model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="53" column="5" lean-forward="true" selection-start-line="53" selection-start-column="3" selection-end-line="53" selection-end-column="39" />
-          <folding>
-            <marker date="1500272899898" expanded="true" signature="1979:1991" ph="DELETE FROM " />
-            <marker date="1500272899898" expanded="true" signature="2313:2436" ph="INSERT INTO ${$this-&gt;table_name}... " />
-            <marker date="1500272899898" expanded="true" signature="2636:2670" ph="SELECT COUNT... ${$this-&gt;table_name}" />
-            <marker date="1500272899898" expanded="true" signature="3000:3039" ph="SELECT sum($... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/lib/view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="16" column="22" lean-forward="false" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/web/layout.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="563">
-          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" column="8" lean-forward="false" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="587">
-            <caret line="106" column="0" lean-forward="true" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
+          <first_editor relative-caret-position="264">
+            <caret line="156" column="4" lean-forward="false" selection-start-line="156" selection-start-column="4" selection-end-line="156" selection-end-column="4" />
             <folding />
           </first_editor>
           <second_editor />
