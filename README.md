@@ -31,6 +31,7 @@ ES 是一款 极简，灵活， 高性能，扩建性强 的php 框架。 未开
 1. 配置路由规则
 
 ES 没有像些重型框架单独有 Route 配置， ES的想法很简单，主要分为 模块[m]，控制器[c]，动作[c] 来路由
+
 ```php
  'rewrite' => array(
         //设置模块 碰到 http://{host}/admin/ 认为进入了后台模块 数组 0 标识默认 m
@@ -46,7 +47,8 @@ shop、order、user 等等模块划分。 实际划分就对应着 controller vi
 
 另外 配置中 m=>[api..] 数组就是划分的模块，对应地址栏会去选择 www.baidu.com/admin/con/index  域名部分后面的第一个 /admin/ 如果在配置中就表示为识别到的模块， 否者将模块默认为 m[0]
 实现代码可以参考 es：
-```
+
+```php
 $rewrite = $GLOBALS['rewrite'];
 if ($rewrite['isRewrite']) {
     $route = explode("/", $_SERVER['PHP_SELF']);
@@ -65,7 +67,8 @@ if ($rewrite['isRewrite']) {
 2. 数据库配置
 
 数据库目前支持mysql
-```
+
+```php
 $dbb = array(
     'mysql' => array(
         'MYSQL_HOST' => '127.0.0.1', 
@@ -80,6 +83,11 @@ $dbb = array(
 ```
 
 3. 业务自定义配置
+ 
+ 自定义的业务方面的配置，可以自己定义个配置文件，在config.php 进行引入，也可以直接在config.php 进行修改配置，后面使用全部用
+ 
+ $GLOBALS = require(APP_PATH . '../config.php');
+$GLOBALS 全局 数组配置进行获取相应的配置项。
 
 ### controller
 
