@@ -1,7 +1,23 @@
 # ES
 
-## 框架文件
-整个框架就一个文件 protected\lib\es.php
+## 框架结构
+
+整个框架核心四个文件，所有文件加起来放在一起总行数不超过400 行 
+
+```
+|--src //受保护代码文件夹
+  |--lib
+    |--es.php //启动文件
+    |--controller.php //控制器文件
+    |--model.php //模型文件
+    |--view.php //视图引擎
+  |--controller //控制器业务文件
+  |--view //视图文件
+  |--model //模型一般小型业务可以省略，数据操作直接放到controller 
+|--res //静态资源
+|--index.php //入口文件
+
+```
 
 ## 具体实现功能
 
