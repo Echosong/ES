@@ -318,5 +318,5 @@ crm系统 https://github.com/Echosong/es_crm
 * 博客地址 ：http://www.cnblogs.com/echosong/
 
 
-  [1]: http://dbbsale.oss-cn-shanghai.aliyuncs.com/keqiang/logo1.png
+  [1]: http://dbbsale.oss-cn-shanghai.aliyuncs.com/keqiang/32.ico
 
