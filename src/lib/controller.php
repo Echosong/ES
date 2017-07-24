@@ -55,7 +55,7 @@ class Controller
 
     public function display ($tpl_name, $return = false) {
 
-        if (!$this->_v) $this->_v = new View(APP_DIR . DS . 'protected' . DS . 'view', APP_DIR . DS . 'protected' . DS . 'tmp');
+        if (!$this->_v) $this->_v = new View(APP_DIR.DS."src" . DS . 'view');
         $this->_v->assign(get_object_vars($this));
         $this->_v->assign($this->_data);
         if ($this->tep_dir != "") {

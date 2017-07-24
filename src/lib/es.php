@@ -1,11 +1,13 @@
 <?php
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+define('APP_ROOT', '/' );
 define('APP_PATH', dirname(__FILE__) . DS);
 $GLOBALS = require(APP_PATH . '../config.php');
 
 require_once(APP_PATH . "controller.php");
 require_once(APP_PATH . "model.php");
 require_once(APP_PATH . "view.php");
+
 
 Date_default_timezone_set("PRC");
 set_error_handler("_err_handle");
@@ -32,6 +34,10 @@ if ($rewrite['isRewrite']) {
             $_GET['m'] = $rewrite['m'][0];
             list($_GET['c'], $_GET['a']) = array_slice($route, 1, 2);
         }
+    }else{
+        $_GET['m'] = $rewrite['m'][0];
+        $_GET['c'] = $rewrite['c'];
+        $_GET['a'] = $rewrite['a'];
     }
 }
 

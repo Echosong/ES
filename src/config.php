@@ -3,19 +3,20 @@
 $config = array(
     'rewrite' => array(
         //设置模块 碰到 http://{host}/admin/ 认为进入了后台模块 数组 0 标识默认 m
-       'm'=>['web','admin','app','api'], 
-       'c'=>'main', //controller 默认值
-       'a'=>'index', //action 默认值,
-       'isRewrite'=> TRUE //是否开启伪静态 .htaccess 文件配置
+        'm' => ['web', 'admin', 'app', 'api'],
+        'c' => 'main', //controller 默认值
+        'a' => 'index', //action 默认值,
+        'isRewrite' => true //是否开启伪静态 .htaccess 文件配置
     ),
-   'debug' => TRUE,
-   'plugins'=>['include','plugin'] //扩展目录
+    'debug' => true,
+    'plugins' => ['include', 'plugin'], //扩展目录
+    'static' => "res"
 );
 
 $dbb = array(
     'mysql' => [
         //主库
-        'master'=>[
+        'master' => [
             'MYSQL_HOST' => '127.0.0.1',
             'MYSQL_PORT' => '3306',
             'MYSQL_USER' => 'root',
@@ -24,7 +25,7 @@ $dbb = array(
             'MYSQL_CHARSET' => 'utf8',
         ],
         //从库可以加入多个实例
-        'slave'=>[
+        'slave' => [
             'MYSQL_HOST' => '127.0.0.1',
             'MYSQL_PORT' => '3306',
             'MYSQL_USER' => 'root',
@@ -36,4 +37,4 @@ $dbb = array(
     'prefix' => 'mo_',
 );
 
-return $dbb+ $config;
+return $dbb + $config;

@@ -1,60 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
-<head profile="http://gmpg.org/xfn/11">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="keywords" content="<?=$config->site_dis?>" />
-	<meta name="description" content="<?=$config->site_dis?>" />
-	<title><?php echo $config['site_CompanyName']?>-<?php echo $car['class_name'] ?> </title>
-	<link media="all" type="text/css" rel="stylesheet" href="/i/web/css/lanrenzhijia.css">
-	<link media="all" type="text/css" rel="stylesheet" href="/i/web/css/style.css">
-	<link media="all" type="text/css" rel="stylesheet" href="/i/web/css/zdy1.css">
-	<link media="all" type="text/css" rel="stylesheet" href="/i/web/css/zdy2.css">
-	<script src="/i/web/js/jquery-1.4.4.min.js"></script>
-	<script src="/i/web/js/alixixi_jquery.min.js"></script>
-	<script src="/i/web/js/script.js"></script>
-	<script src="/i/web/png/pngtm.js"></script>
-</head>
-<body class="page page-id-104 page-template-default">
-<div id="page-wrap">
-	<div id="header">
-		<div class="logo">
-			<!--否定语句-->
-			<img src="/i/web/images/logo.png" />
-		</div>
-		<div id="navigation">
-			<div class="menu-%e8%8f%9c%e5%8d%951-container">
-				<ul id="menu-%e8%8f%9c%e5%8d%951" class="menu">
-					<li id="menu-item-59" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-59">
-						<a href="<?= url("main", "index") ?>">首页</a>
-					</li>
-					<li id="menu-item-127" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-127">
-						<a href="<?= url('main', 'products') ?>">会员商城</a>
-					</li>
-					<li id="menu-item-206" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-206">
-						<a href="<?= url('main', 'news', array('cid'=>4)) ?>">行业资讯</a>
-					</li>
-					<li id="menu-item-105" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-206">
-						<a href="<?= url('main','about', ['cid'=>1]) ?>">关于我们</a>
-					</li>
-					<li id="menu-item-102" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-102">
-						<a href="<?= url('main','about', ['cid'=>7]) ?>">业务领域</a>
-					</li>
-					<li id="menu-item-280" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-280">
-						<a href="<?= url('main','login') ?>">会员中心</a>
-					</li>
 
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>ES framework </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHS01jB0tNejdLTX33O01+10tNftdLTX7XS01+10tNftdLTX7XS01+10tNftcK/R7WOeve1gmrrtZZ687b7f6O3o/v7t6P7+7ej+/u3o/v7t6P7+7ej+/u3o/v7t6P7+7ej+/e3n/v3j5v39p+L7+zIAAAAAAAAAAAAAAAB0tNdgdLTX+3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/crLV/2ejw/9hm7r/Y5y7/7ze5//p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6P79++T8/GQAAAAAdLTXNHS01vt0tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/c7PW/2qnyP9hm7r/ZZ68/9Dt8f/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6P79++P7/Dh0tNevdLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/2uoyf9hm7r/f7HJ/+j+/f/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/5v39s3S01+90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/c7PW/2ikxP9hm7r/xOTr/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/n/v3zdLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/crLV/2KdvP+RvtL/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+j+/f90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/aqfI/2yjv//o/v3/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/9xsNL/YZu6/9fx9f/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3Oz1v9inbz/xeTs/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/2WgwP/C4ur/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/ZaDA/8/s8f/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3Oz1v9posD/5fz8/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/cK/R/5PA0//p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/9sp8f/1PDz/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/b67Q/6/V4f/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3S01/90tNf/dLTX/3Gw0v+o0N//6P79/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/014mv9NeJr/TXia/014mv9NeJr/TXia/014mv9NeJr/TXia/014mv9NeJr/TXia/014mv9NeJr/TXia/014mv9XgJ7/tM/Z/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9TfJ3/k7DD/93z9P/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9UfZ3/or7O/+L29//p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Ldpj/Zoyn/9Tr7v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/2KIo//d9PX/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9LdZX/zOPn/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/36csf/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9KdZf/rsTP/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0hzlP/D197/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/SHOT/7zP2P/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9KdJb/nLLA/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+j+/f9Md5n1THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0t2mP9ig5z/7/7+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/5vz89Ux4mrlMd5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/THeZ/0Vujf/E1Nz/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/l/Pu5TXmbQEx3mf1Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/SnWX/1p9lv/o9Pb/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6P79/d/3+EIAAAAATXiadEx3mf1Md5n/THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/SXOU/2iIn//i7/L/6v/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n//v/p//7/6f/+/+n+/f3l+/t2AAAAAAAAAAAAAAAATXmbQEx4mrlMd5n1THeZ/0x3mf9Md5n/THeZ/0x3mf9Md5n/SnSW/091kf+ftML/3Ovu//D+/v/w//7/8P/+//D//v/w//7/8P/+//D//v/w//7/8P/+//D//v/w//7/8P7+/+79/fft/f277fr7QgAAAAAAAAAA4AAAB8AAAAOAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAABwAAAA+AAAAc=" type="image/x-icon" />
+    <link rel="stylesheet" href="<?=APP_ROOT.$GLOBALS['static']?>/css/style.css" />
+</head>
+
+<body>
 <?php include $_view_obj->compile($__template_file); ?>
-<div id="footer">
-	<div class="footer1 f_bq">Copyright &copy; 2014 All Rights Reserved 版权所有 &copy; <?=$config['site_CompanyName'] ?>
-		备案：<?=$config["site_beian"] ?>
-		联系电话： <?=$config["site_tel"] ?>　 联系人：<?=$config["site_Person"] ?>
-	</div>
-	<div style=" text-align:center;"></div>
-</div>
+
+</body>
 </html>
