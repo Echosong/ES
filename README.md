@@ -11,7 +11,7 @@ ES 是一款 极简，灵活， 高性能，扩建性强 的php 框架。 未开
 
 ```
 |--src //受保护代码文件夹
-  |--lib
+  |--core
     |--es.php //启动文件
     |--controller.php //控制器文件
     |--model.php //模型文件
