@@ -9,4 +9,4 @@ if (!empty($argc)) {
     $_POST['a'] = $argv[3];
 }
 
-require(APP_DIR . '/src/lib/es.php');
+require(APP_DIR . '/src/core/es.php');
