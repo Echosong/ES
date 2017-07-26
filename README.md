@@ -314,10 +314,6 @@ if (!empty($argc)) {
 $ php index.php m c a
 ```
 
-## 案列
-
-crm系统 https://github.com/Echosong/es_crm
-
 ## 联系方式
 
 * bug和建议请发送至：`313690636@qq.com`；
