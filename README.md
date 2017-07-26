@@ -113,7 +113,7 @@ $GLOBALS 全局 数组配置进行获取相应的配置项。
 
 #### Controller
 
-控制器 （Get, Post , Head , Put http）+$_Get['a'] 的函数，直接暴露给了请求，请求可以通过
+控制器 （Get, Post , Head , Put ）+$_Get['a'] 的函数，直接暴露给了请求，请求可以通过
 $_GET['a'] 直接调用，如果么没有指定相应http 动作时间，直接调用 public action+$_GET['a'] 的函数
 比如 客户端get请求
     
