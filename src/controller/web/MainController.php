@@ -11,5 +11,10 @@ class MainController extends BaseController
         $this->display('default.php');
     }
 
+    public function getTest()
+    {
+        echo url('main','user', ['x'=>1]);
+    }
+
 
 }

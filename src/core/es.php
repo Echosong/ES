@@ -8,7 +8,6 @@ require_once(APP_PATH . "controller.php");
 require_once(APP_PATH . "model.php");
 require_once(APP_PATH . "view.php");
 
-
 Date_default_timezone_set("PRC");
 set_error_handler("_err_handle");
 
@@ -24,8 +23,9 @@ if ($GLOBALS['debug']) {
 session_start();
 
 $rewrite = $GLOBALS['rewrite'];
-if ($rewrite['isRewrite']) {
-    $route = explode("/", $_SERVER['REQUEST_URI']);
+$requestURI = $_SERVER['REQUEST_URI'];
+if ($rewrite['isRewrite'] && !strpos($requestURI, '.php')) {
+    $route = explode("/", $requestURI);
     if (!empty($route[1])) {
         if (in_array($route[1], $rewrite['m'])) {
             $_GET['m'] = $route[1];
@@ -48,14 +48,14 @@ $__action = strtolower($_REQUEST['a']);
 
 //模块对应目录
 if (!is_available_classname($__module)) {
-    err("Err: Module name '$__module' is not correct!");
+    die("Err: Module name '$__module' is not correct!");
 }
 if (!is_dir(APP_PATH . '../controller' . DS . $__module)) {
-    err("Err: Module '$__module' is not exists!");
+    die("Err: Module '$__module' is not exists!");
 }
 
 if (!is_available_classname($__controller)) {
-    err("Err: Controller name '$__controller' is not correct!");
+    die("Err: Controller name '$__controller' is not correct!");
 }
 
 spl_autoload_register('inner_autoload');
@@ -81,7 +81,7 @@ $controller_obj = new $controller_name();
 if (!method_exists($controller_obj, $action_name)) {
     $action_name = 'action' . $__action;
     if (!method_exists($controller_obj, $action_name)) {
-        err("Err: Method '$action_name' of '$controller_name' is not exists!");
+        die("Err: Method '$action_name' of '$controller_name' is not exists!");
     }
 };
 $controller_obj->$action_name();
@@ -101,8 +101,8 @@ function url($c, $a, $param = array())
     $c = empty($c) ? $rewrite['c'] : $c;
     $a = empty($a) ? $rewrite['a'] : $a;
     $params = empty($param) ? '' : http_build_query($param);
-    if ($GLOBALS['isRewrite']) {
-        $url = $_SERVER["SCRIPT_NAME"] . DS . $__module . DS . $c . DS . $a . "?" . $param;
+    if ($rewrite['isRewrite']) {
+        $url = $_SERVER["HTTP_HOST"] . '/' . $__module . '/' . $c . '/' . $a . "?" . $params;
     } else {
         $url = $_SERVER["SCRIPT_NAME"] . "?m=$__module&c=$c&a=$a$params";
     }
