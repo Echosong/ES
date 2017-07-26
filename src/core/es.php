@@ -9,7 +9,6 @@ require_once(APP_PATH . "model.php");
 require_once(APP_PATH . "view.php");
 
 Date_default_timezone_set("PRC");
-set_error_handler("_err_handle");
 
 if ($GLOBALS['debug']) {
     error_reporting(-1);
@@ -76,6 +75,7 @@ $controller_name = $__controller.'Controller';
 $httpMethod = strtolower($_SERVER['REQUEST_METHOD']);
 $action_name = $httpMethod . ucfirst($__action);
 
+if(!class_exists($controller_name, true)) die("Err: Controller '$controller_name' is not exists!");
 $controller_obj = new $controller_name();
 
 if (!method_exists($controller_obj, $action_name)) {
@@ -85,14 +85,6 @@ if (!method_exists($controller_obj, $action_name)) {
     }
 };
 $controller_obj->$action_name();
-
-//自动模板渲染
-if ($controller_obj->_auto_display) {
-    $auto_tpl_name = (empty($__module) ? '' : $__module . DS) . $__controller . '_' . $__action . '.html';
-    if (file_exists(APP_DIR . DS . '../view' . DS . $auto_tpl_name)) {
-        $controller_obj->display($auto_tpl_name);
-    }
-}
 
 function url($c, $a, $param = array())
 {
@@ -112,22 +104,4 @@ function url($c, $a, $param = array())
 function is_available_classname($name)
 {
     return preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $name);
-}
-
-function _err_handle($errno, $errstr, $errfile, $errline)
-{
-    $msg = "ERROR";
-    if ($errno == E_WARNING) {
-        $msg = "WARNING";
-    }
-    if ($errno == E_STRICT) {
-        $msg = "STRICT";
-    }
-    if ($errno == 8192) {
-        $msg = "DEPRECATED";
-    }
-    if (ob_get_contents()) {
-        ob_end_clean();
-    }
-    die("$msg: $errstr in $errfile on line $errline");
 }
