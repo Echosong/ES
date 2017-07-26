@@ -7,7 +7,7 @@ ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 
 ### 开发缘由
 
 与其说开发此框架，更准确说法应该是一次代码的整理，本人在接触将近10年的php开发过程中，陆续也接触了很多开发框架，和开发模式。不仅仅php
-有asp.net mvc、php laravel、php yii、python web.py、python、python django、golang beego 等等 框架各自有各自的优势，但是使用场景
+有asp.net mvc、php laravel、php yii、python web.py、python django、golang beego 等等 框架各自有各自的优势，但是使用场景
 和性能方面各有所长，在15年的时候给公司同事分享mvc核心思想的时候， 我在想既然用了这么多框架那是不是自己整理出一些核心的，或者说是开发过程中最需要的部分，
 来写自己的这么一个极简型框架，如此便有了 ES。
 
@@ -113,7 +113,7 @@ $GLOBALS 全局 数组配置进行获取相应的配置项。
 
 #### Controller
 
-控制器 （Get, Post , Head , Put http）+$_Get['a'] 的函数，直接暴露给了请求，请求可以通过
+控制器 （Get, Post , Head , Put ）+$_Get['a'] 的函数，直接暴露给了请求，请求可以通过
 $_GET['a'] 直接调用，如果么没有指定相应http 动作时间，直接调用 public action+$_GET['a'] 的函数
 比如 客户端get请求
     
@@ -313,10 +313,6 @@ if (!empty($argc)) {
 }
 $ php index.php m c a
 ```
-
-## 案列
-
-crm系统 https://github.com/Echosong/es_crm
 
 ## 联系方式
 
