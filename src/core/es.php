@@ -25,9 +25,9 @@ session_start();
 
 $rewrite = $GLOBALS['rewrite'];
 if ($rewrite['isRewrite']) {
-    $route = explode("/", $_SERVER['PHP_SELF']);
-    if (!empty($rule[1])) {
-        if (in_array($rule[1], $rewrite['m'])) {
+    $route = explode("/", $_SERVER['REQUEST_URI']);
+    if (!empty($route[1])) {
+        if (in_array($route[1], $rewrite['m'])) {
             $_GET['m'] = $route[1];
             list($_GET['c'], $_GET['a']) = array_slice($route, 2, 3);
         } else {
