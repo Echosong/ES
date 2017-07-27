@@ -67,12 +67,12 @@ Class Helper
                     $_GET['m'] = $rewrite['m'][0];
                     list($_GET['c'], $_GET['a']) = array_slice($route, 1, 2);
                 }
-            } else {
-                $_GET['m'] = $rewrite['m'][0];
-                $_GET['c'] = $rewrite['c'];
-                $_GET['a'] = $rewrite['a'];
             }
         }
+        $_GET['m'] = strtolower( self::get($_GET['m'], $rewrite['m'][0]));
+        $_GET['c'] = strtolower(self::get($_GET['c'],  $rewrite['c']));
+        $_GET['a'] = strtolower(self::get($_GET['a'], $rewrite['a']));
+
     }
 
     /**
@@ -182,6 +182,20 @@ Class Helper
     {
         $logPath = APP_DIR . DS . $GLOBALS['logPath'] . DS . date('Ymd') . "_" . $level . ".log";
         error_log(date('Ymd H:i:s') . "  " . $errMsg . "\r\n", 3, $logPath);
+    }
+
+    /**设置设置默认值
+     * @param $val
+     * @param $defult
+     * @return mixed
+     */
+    public static function get($val, $defult)
+    {
+        if(empty($val)){
+            return $defult;
+        }else{
+            return $val;
+        }
     }
 
 }

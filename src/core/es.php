@@ -17,9 +17,9 @@ Helper::setRoute();
 
 //定义全局变量
 $_REQUEST = array_merge($_POST, $_GET);
-$__module = strtolower($_REQUEST['m']);
-$__controller = strtolower($_REQUEST['c']);
-$__action = strtolower($_REQUEST['a']);
+$__module = $_REQUEST['m'];
+$__controller = $_REQUEST['c'];
+$__action = $_REQUEST['a'];
 
 spl_autoload_register(function ($class) use ($__module){
     foreach (array('model', 'include', 'controller' . DS . $__module, './') as $dir) {
