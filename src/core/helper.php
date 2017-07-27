@@ -121,22 +121,22 @@ Class Helper
     public static function responseJson($message, $code = 0)
     {
         header('Content-type: application/json');
-        exit(json_encode(['code' => $code, 'messaage' => $message]));
+        exit(json_encode(['code' => $code, 'message' => $message]));
     }
 
     /**
-     * 处理业务后的跳转
-     * @param $message
-     * @param $url
+     * @param $msg
+     * @param string $url
+     * @param int $code 非0 错误提示
      */
-    public static function redirect($msg, $url = '')
+    public static function redirect($msg,  $url = '',$code= 0)
     {
 
         if (isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest") {
             if (is_array($msg)) {
                 exit(json_encode($msg));
             } else {
-                self::responseJson(['alertStr' => $msg, 'redirect' => $url]);
+                self::responseJson(['alertStr' => $msg, 'redirect' => $url], $code);
             }
         } else {
             $strAlert = "";
