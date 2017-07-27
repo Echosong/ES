@@ -10,7 +10,8 @@ $config = array(
     ),
     'debug' => true,
     'plugins' => ['include', 'plugin'], //扩展目录
-    'static' => "res"
+    'static' => "res",
+    'logPath' => 'logs'
 );
 
 $dbb = array(

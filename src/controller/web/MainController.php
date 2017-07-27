@@ -13,6 +13,8 @@ class MainController extends BaseController
 
     public function getTest()
     {
+        Helper::log("记录下");
+        Helper::responseJson('成功了');
         echo url('main','user', ['x'=>1]);
     }
 

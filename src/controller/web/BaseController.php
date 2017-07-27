@@ -7,31 +7,10 @@ Class BaseController extends Controller
     public $layout = "web/layout.php";
 
     /**
-     * 初始化
+     * 初始化 action 执行之前执行
      */
     public function init()
     {
-    }
-
-    /**
-     * 获取客户端ip
-     */
-    public function getIp()
-    {
-        if (getenv("HTTP_CLIENT_IP")) {
-            $ip = getenv("HTTP_CLIENT_IP");
-        } else {
-            if (getenv("HTTP_X_FORWARDED_FOR")) {
-                $ip = getenv("HTTP_X_FORWARDED_FOR");
-            } else {
-                if (getenv("REMOTE_ADDR")) {
-                    $ip = getenv("REMOTE_ADDR");
-                } else {
-                    $ip = "Unknow";
-                }
-            }
-        }
-        return $ip;
     }
 
     /**

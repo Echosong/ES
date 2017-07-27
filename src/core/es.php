@@ -2,106 +2,35 @@
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 define('APP_ROOT', '/' );
 define('APP_PATH', dirname(__FILE__) . DS);
-$GLOBALS = require(APP_PATH . '../config.php');
 
+Date_default_timezone_set("PRC");
+session_start();
+
+$GLOBALS = require(APP_PATH . '../config.php');
+require_once(APP_PATH . "helper.php");
 require_once(APP_PATH . "controller.php");
 require_once(APP_PATH . "model.php");
 require_once(APP_PATH . "view.php");
 
-Date_default_timezone_set("PRC");
+//设置路由规范
+Helper::setRoute();
 
-if ($GLOBALS['debug']) {
-    error_reporting(-1);
-    ini_set("display_errors", "On");
-} else {
-    error_reporting(E_ALL & ~(E_STRICT | E_NOTICE));
-    ini_set("display_errors", "Off");
-    ini_set("log_errors", "On");
-}
-
-session_start();
-
-$rewrite = $GLOBALS['rewrite'];
-$requestURI = $_SERVER['REQUEST_URI'];
-if ($rewrite['isRewrite'] && !strpos($requestURI, '.php')) {
-    $route = explode("/", $requestURI);
-    if (!empty($route[1])) {
-        if (in_array($route[1], $rewrite['m'])) {
-            $_GET['m'] = $route[1];
-            list($_GET['c'], $_GET['a']) = array_slice($route, 2, 3);
-        } else {
-            $_GET['m'] = $rewrite['m'][0];
-            list($_GET['c'], $_GET['a']) = array_slice($route, 1, 2);
-        }
-    }else{
-        $_GET['m'] = $rewrite['m'][0];
-        $_GET['c'] = $rewrite['c'];
-        $_GET['a'] = $rewrite['a'];
-    }
-}
-
+//定义全局变量
 $_REQUEST = array_merge($_POST, $_GET);
 $__module = strtolower($_REQUEST['m']);
 $__controller = strtolower($_REQUEST['c']);
 $__action = strtolower($_REQUEST['a']);
 
-//模块对应目录
-if (!is_available_classname($__module)) {
-    die("Err: Module name '$__module' is not correct!");
-}
-if (!is_dir(APP_PATH . '../controller' . DS . $__module)) {
-    die("Err: Module '$__module' is not exists!");
-}
-
-if (!is_available_classname($__controller)) {
-    die("Err: Controller name '$__controller' is not correct!");
-}
-
-spl_autoload_register('inner_autoload');
-function inner_autoload($class)
-{
-    GLOBAL $__module;
-    foreach (array('model', 'include', 'controller' . DS . $__module) as $dir) {
-    $file = APP_PATH . '../'. $dir . DS . $class . '.php';
+spl_autoload_register(function ($class) use ($__module){
+    foreach (array('model', 'include', 'controller' . DS . $__module, './') as $dir) {
+        $file = APP_PATH . '../'. $dir . DS . $class . '.php';
         if (file_exists($file)) {
             include $file;
-            return;
         }
     }
-}
+});
 
-$controller_name = $__controller.'Controller';
-//处理restful
-$httpMethod = strtolower($_SERVER['REQUEST_METHOD']);
-$action_name = $httpMethod . ucfirst($__action);
+//开始运行
+Helper::start();
 
-if(!class_exists($controller_name, true)) die("Err: Controller '$controller_name' is not exists!");
-$controller_obj = new $controller_name();
 
-if (!method_exists($controller_obj, $action_name)) {
-    $action_name = 'action' . $__action;
-    if (!method_exists($controller_obj, $action_name)) {
-        die("Err: Method '$action_name' of '$controller_name' is not exists!");
-    }
-};
-$controller_obj->$action_name();
-
-function url($c, $a, $param = array())
-{
-    GLOBAL $__module;
-    GLOBAL $rewrite;
-    $c = empty($c) ? $rewrite['c'] : $c;
-    $a = empty($a) ? $rewrite['a'] : $a;
-    $params = empty($param) ? '' : http_build_query($param);
-    if ($rewrite['isRewrite']) {
-        $url = $_SERVER["HTTP_HOST"] . '/' . $__module . '/' . $c . '/' . $a . "?" . $params;
-    } else {
-        $url = $_SERVER["SCRIPT_NAME"] . "?m=$__module&c=$c&a=$a$params";
-    }
-    return $url;
-}
-
-function is_available_classname($name)
-{
-    return preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $name);
-}

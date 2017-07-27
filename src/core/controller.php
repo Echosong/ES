@@ -23,36 +23,6 @@ class Controller
         $this->_data[$name] = $value;
     }
 
-    public function success ($msg, $url) {
-        if (isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest") {
-            if (is_array($msg)) {
-                exit(json_encode($msg));
-            } else {
-                exit(json_encode(array("code" => 0, 'message' => $msg, 'redirect' => $url)));
-            }
-        } else {
-            $strAlert = "";
-            if (!empty($msg)) {
-                $strAlert = "alert(\"{$msg}\");";
-            }
-            echo "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><script>function sptips(){  {$strAlert} location.href=\"{$url}\";}</script></head><body onload=\"sptips()\"></body></html>";
-            exit;
-        }
-    }
-
-    public function history ($msg) {
-        if (isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest") {
-            if (is_array($msg)) {
-                exit(json_encode($msg));
-            } else {
-                exit(json_encode(array("code" => 1, 'message' => $msg)));
-            }
-        } else {//非ajax提交
-            $type = $_SERVER['HTTP_X_REQUESTED_WITH'];
-            exit("<script>alert('$msg');window.history.go(-1);</script>");
-        }
-    }
-
     public function display ($tpl_name, $return = false) {
 
         if (!$this->_v) $this->_v = new View(APP_DIR.DS."src" . DS . 'view');
