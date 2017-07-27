@@ -14,7 +14,6 @@ Class Helper
         return preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $name);
     }
 
-
     /**
      * 获取规则的url
      * @param $c
