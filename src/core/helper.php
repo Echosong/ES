@@ -30,16 +30,19 @@ Class Helper
         $a = empty($a) ? $rewrite['a'] : $a;
         $params = empty($param) ? '' : http_build_query($param);
         if ($rewrite['isRewrite']) {
+            if(!empty($params)){
+                $params = "?$params";
+            }
             if ($__module == $rewrite['m'][0]) {
-                $url = $_SERVER["HTTP_HOST"] . '/' . $c . '/' . $a . "?" . $params;
+                $url = "http://" . $_SERVER["HTTP_HOST"] . '/' . $c . '/' . $a . $params;
             } else {
-                $url = $_SERVER["HTTP_HOST"] . '/' . $__module . '/' . $c . '/' . $a . "?" . $params;
+                $url = "http://" . $_SERVER["HTTP_HOST"] . '/' . $__module . '/' . $c . '/' . $a .$params;
             }
         } else {
             if ($__module != $rewrite['m'][0]) {
-                $url = $_SERVER["SCRIPT_NAME"] . "?m=$__module&c=$c&a=$a$params";
+                $url = "http://" . $_SERVER["SCRIPT_NAME"] . "?m=$__module&c=$c&a=$a$params";
             } else {
-                $url = $_SERVER["SCRIPT_NAME"] . "?c=$c&a=$a$params";
+                $url = "http://" . $_SERVER["SCRIPT_NAME"] . "?c=$c&a=$a$params";
             }
         }
         return $url;
@@ -51,9 +54,9 @@ Class Helper
      */
     public static function setRoute()
     {
-        GLOBAL $GLOBALS;
         $rewrite = $GLOBALS['rewrite'];
         $requestURI = $_SERVER['REQUEST_URI'];
+        $requestURI = str_replace('?'.$_SERVER["QUERY_STRING"], '',$requestURI);
         if ($rewrite['isRewrite'] && !strpos($requestURI, '.php')) {
             $route = explode("/", $requestURI);
             if (!empty($route[1])) {
@@ -78,6 +81,7 @@ Class Helper
     public static function start()
     {
         GLOBAL $__module, $__action, $__controller;
+
         //模块对应目录
         if (!self::is_available_classname($__module)) {
             die("Err: Module name '$__module' is not correct!");
@@ -174,9 +178,10 @@ Class Helper
      * @param $errmsg
      * @param $level debug, info, error
      */
-    public static function log($errMsg, $level='info'){
-        $logPath = APP_DIR.DS.$GLOBALS['logPath'].DS.date('Ymd')."_".$level.".log";
-        error_log(date('Ymd H:i:s')."  ".$errMsg."\r\n", 3, $logPath);
+    public static function log($errMsg, $level = 'info')
+    {
+        $logPath = APP_DIR . DS . $GLOBALS['logPath'] . DS . date('Ymd') . "_" . $level . ".log";
+        error_log(date('Ymd H:i:s') . "  " . $errMsg . "\r\n", 3, $logPath);
     }
 
 }
