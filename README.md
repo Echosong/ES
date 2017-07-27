@@ -14,12 +14,13 @@ ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 
 
 ## 框架结构
 
-整个框架核心四个文件，所有文件加起来放在一起总行数不超过400 行 
+整个框架核心五个文件，所有文件加起来放在一起总行数不超过400 行 
 
 ```
 |--src //受保护代码文件夹
   |--core
     |--es.php //启动文件
+    |- helper.php //实现流程的核心方法类
     |--controller.php //控制器文件
     |--model.php //模型文件
     |--view.php //视图引擎
@@ -28,6 +29,7 @@ ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 
   |--model //模型一般小型业务可以省略，数据操作直接放到controller 
   |--config.php //全局配置文件，业务相关的配置也可以放这里，或者自己建立一个独立的配置文件index.php 文件引用
 |--res //静态资源
+|--logs // 日志记录路径 可以省如果有请保证有写入权限
 |--index.php //入口文件
 
 ```
@@ -137,12 +139,6 @@ public function __get ($name)
 
 //此函数设置的值可以在视图模板里直接使用
 public function __set ($name, $value)
-
-//处理，比如修改 添加 数据成功时候需要返回列表页， $msg 弹出的提示内容， $url 为列表页面的地址
-public function success ($msg, $url)
-
-//跟success 函数对应，直接返回上次操作页面，比如添加保存成功 再调回到添加页面
-public function history ($msg)
 
 //处理 action对应的模板 $tpl_name 模板地址 会自定到view 和controller 同名的文件夹
 public function display ($tpl_name, $return = false)

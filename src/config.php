@@ -11,7 +11,7 @@ $config = array(
     'debug' => true,
     'plugins' => ['include', 'plugin'], //扩展目录
     'static' => "res",
-    'logPath' => 'logs'
+    'logPath' => 'logs' //日志路径，请保证路径权限可写
 );
 
 $dbb = array(
