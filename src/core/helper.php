@@ -69,9 +69,9 @@ Class Helper
                 }
             }
         }
-        $_GET['m'] = strtolower( self::get($_GET['m'], $rewrite['m'][0]));
-        $_GET['c'] = strtolower(self::get($_GET['c'],  $rewrite['c']));
-        $_GET['a'] = strtolower(self::get($_GET['a'], $rewrite['a']));
+        $_GET['m'] = strtolower( $_GET['m']? $_GET['m']: $rewrite['m'][0]);
+        $_GET['c'] = strtolower($_GET['c']?$_GET['c']: $rewrite['c']);
+        $_GET['a'] = strtolower($_GET['a']? $_GET['a']:$rewrite['a']);
 
     }
 
@@ -184,17 +184,19 @@ Class Helper
         error_log(date('Ymd H:i:s') . "  " . $errMsg . "\r\n", 3, $logPath);
     }
 
-    /**设置设置默认值
-     * @param $val
+
+    /**
+     * request获取信息设置默认值
+     * @param $name
      * @param $defult
      * @return mixed
      */
-    public static function get($val, $defult)
+    public static function request($name, $defult)
     {
-        if(empty($val)){
+        if(empty($_REQUEST[$name])){
             return $defult;
         }else{
-            return $val;
+            return $_REQUEST[$name];
         }
     }
 
