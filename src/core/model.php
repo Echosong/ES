@@ -17,6 +17,7 @@ class Model
             $this->table_name = $GLOBALS['prefix'] . $table_name;
         }
     }
+
     public function findAll($conditions = array(), $sort = null, $fields = '*', $limit = null)
     {
         $sort = !empty($sort) ? ' ORDER BY ' . $sort : '';
@@ -57,7 +58,6 @@ class Model
         return $this->execute("DELETE FROM " . $this->table_name . $conditions["_where"], $conditions["_bindParams"]);
     }
 
-
     public function create($row)
     {
         $values = array();
@@ -69,6 +69,33 @@ class Model
         $this->execute("INSERT INTO " . $this->table_name . " (" . implode(', ', $keys) . ") VALUES (" . implode(', ',
                 $marks) . ")", $values);
         return $this->_master_db->lastInsertId();
+    }
+
+    public function creates($rows)
+    {
+        if (!is_array($rows[0]) || empty($rows[0])) {
+            $this->create($rows);
+        }
+        if (!($this->_master_db)) {
+            $this->setDB('default');
+        }
+        foreach ($rows[0] as $k => $v) {
+            $keys[] = "`{$k}`";
+            $marks[] = ":" . $k;
+        }
+        $sql = "INSERT INTO " . $this->table_name . " (" . implode(', ', $keys) . ") VALUES (" . implode(', ',
+                $marks) . ")";
+        $this->_master_db->beginTransaction();
+
+        $sth = $this->_master_db->prepare($sql);
+        foreach ($rows as $row) {
+            $values = [];
+            foreach ($row as $k => $v) {
+                $values[":" . $k] = $v;
+            }
+            $sth->execute($values);
+        }
+        $this->_master_db->commit();
     }
 
     public function findCount($conditions)
