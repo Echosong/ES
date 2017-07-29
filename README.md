@@ -226,6 +226,21 @@ $userDb->create(
       'sex'=>1
     ]
 );
+
+/** 批量表插入记录
+ * @param $rows
+ * @return mixed
+ */
+public function creates($rows);
+
+演示
+$userDb = new Model('user');
+$userDb->create(
+    [
+        ['username'=>'es',password'=>'123456'],['username'=>'es',password'=>'1234564']...
+    ]
+);
+
 ```
 #### 更新
 ```php
