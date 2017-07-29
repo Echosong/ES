@@ -158,6 +158,36 @@ baseController 在每个模块里面有父类，继承系统核心Controller 主
 
 es 数据库操作使用PDO pdo 本身对数据库操作，参数化，防止sql注入， 请在使用元素sql 语句查询的时候，不要直接拼凑字符串。
 
+### 模型类
+
+模型类继承 Model 一般情况下可以不需要模型类之间在Action里面进行数据库操作，当我们某些业务数据库操作部分其他公用起来，那么模型类是不错的选择。
+
+```php
+class User extends Model
+{
+    //模型对应的表名
+    public $table_name = 'user_view';
+
+    //定义使用的常用
+    const  USER_ON = 0; 
+    const  USER_OFF = 1; 
+
+    //定义数据的一些枚举
+    public static  $member =[
+        self::USER_ON => '正常',
+        self::USER_OFF => '禁用'
+    ];
+    
+    //公用的操作数据方法
+    public function login($username, $password)
+    {
+        $this->find()
+        //todo 
+    }
+ }
+ 
+```
+
 #### 读写分离（多数库操作）
 
 ```php
