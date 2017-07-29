@@ -103,13 +103,61 @@ $dbb = array(
     'prefix' => 'mo_',
 );
 ```
-
 #### 业务自定义配置
  
  自定义的业务方面的配置，可以自己定义个配置文件，在config.php 进行引入，也可以直接在config.php 进行修改配置，后面使用全部用
  
  $GLOBALS = require(APP_PATH . '../config.php');
 $GLOBALS 全局 数组配置进行获取相应的配置项。
+
+### 核心实现文件（Helper.php）
+```php
+ /**
+ * 获取规则的url,统一获取url方便路由规则的对应
+ * @param $c
+ * @param $a
+ * @param array $param
+ * @return string
+ */
+public static function url($c, $a, $param = array())
+
+ /**
+ * 启动程序，实现了mvc的核心逻辑（根据 c , a 参数怎样去对应执行相应的controller）
+ */
+public static function start()
+
+/**
+ * 所有的输出格式统一
+ * @param $message 输出对象
+ * @param $code 输出错误码
+ */
+public static function responseJson($message, $code = 0)
+
+
+/** 在操作完成一个事务的时候，引导调整到下一个事务，支出ajax的请求返回
+ * @param $msg
+ * @param string $url
+ * @param int $code 非0 错误提示
+ */
+public static function redirect($msg,  $url = '',$code= 0)
+
+
+ /** 打印文件日志方便显示调试
+ * @param $errmsg
+ * @param $level debug, info, error 基本类似log4
+ */
+public static function log($errMsg, $level = 'info')
+
+
+/**
+ * request获取信息设置默认值（特别的 $_GET['**'] 不存在的参数会notice,此函数很好解决了这个问题）
+ * @param $name
+ * @param $defult
+ * @return mixed
+ */
+public static function request($name, $defult)
+
+```
 
 ### 控制器
 
@@ -185,7 +233,8 @@ class User extends Model
         //todo 
     }
  }
- 
+ //直接实例等同 $userDb = new Model('user') 只不过模型里面只能用到原始的Model表;
+ $userDb = new User();
 ```
 
 #### 读写分离（多数库操作）
