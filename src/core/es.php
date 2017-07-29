@@ -22,7 +22,7 @@ $__controller = $_REQUEST['c'];
 $__action = $_REQUEST['a'];
 
 spl_autoload_register(function ($class) use ($__module){
-    foreach (array('model', 'include', 'controller' . DS . $__module, './') as $dir) {
+    foreach (array_merge($GLOBALS['plugins'] , ['model','controller' . DS . $__module, './']) as $dir) {
         $file = APP_PATH . '../'. $dir . DS . $class . '.php';
         if (file_exists($file)) {
             include $file;
