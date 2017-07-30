@@ -69,9 +69,9 @@ Class Helper
                 }
             }
         }
-        $_GET['m'] = strtolower( $_GET['m']? $_GET['m']: $rewrite['m'][0]);
-        $_GET['c'] = strtolower($_GET['c']?$_GET['c']: $rewrite['c']);
-        $_GET['a'] = strtolower($_GET['a']? $_GET['a']:$rewrite['a']);
+        $_GET['m'] = strtolower( empty($_GET['m'])? $rewrite['m'][0]:$_GET['m']);
+        $_GET['c'] = strtolower(empty($_GET['c'])? $rewrite['c']:$_GET['c'] );
+        $_GET['a'] = strtolower(empty($_GET['a'])? $rewrite['a']:$_GET['a']);
 
     }
 
