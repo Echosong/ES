@@ -286,7 +286,25 @@ public function findSum($conditions, $field)
 
 //查询统计量等同于 count(1) 返回直接返回整型
 public function findCount($conditions)
+
 ```
+#### 各种函数的查询条件
+```sql
+方式一： 拼凑sql
+
+ $user->find(" username='{$username}' and sex > $sex")
+ 
+方式二： 简单数组实现and 连接
+
+$user->find(['username'=>$username, 'sex>'=>$sex])
+
+方式三： 参数化写法
+
+$user->find([ ["username = :username and sex > :sex"],[':username'=>$username, 'sex'=>$sex] ])
+
+方式一 可能为存在sql注入问题 特别注意， 方式二简单明了，但是连接 or 条件 为能实现 方式三稍微复杂 建议使用
+```
+
 
 ####  新增
 

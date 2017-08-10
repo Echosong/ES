@@ -214,32 +214,32 @@ class Model
     private function _where($conditions)
     {
         $result = array("_where" => " ", "_bindParams" => array());
-        if (!$conditions) {
+        if (empty($conditions)) {
             return $result;
         }
         if (is_array($conditions) && !empty($conditions)) {
-            $fieldss = array();
             $sql = null;
             $join = array();
-            if (isset($conditions[0]) && $sql = $conditions[0]) {
-                unset($conditions[0]);
-            }
-            foreach ($conditions as $key => $condition) {
-                $optstr = substr($key, strlen($key) - 1, 1);
-                if ($optstr == '>' || $optstr == '<') {
-                    unset($conditions[$key]);
-                    $key = str_replace($optstr, '', $key);
-                } else {
-                    $optstr = '=';
+            if (is_array($conditions[0])) {
+                $sql = $conditions[0];
+                $conditions = $conditions[1];
+            }else{
+                foreach ($conditions as $key => $condition) {
+                    $optStr = substr($key, strlen($key) - 1, 1);
+                    if ($optStr == '>' || $optStr == '<') {
+                        unset($conditions[$key]);
+                        $key = str_replace($optStr, '', $key);
+                    } else {
+                        $optStr = '=';
+                    }
+                    if (substr($key, 0, 1) != ":") {
+                        unset($conditions[$key]);
+                        $conditions[":" . $key] = $condition;
+                    }
+                    $join[] = "`{$key}`{$optStr} :{$key}";
+                }if (!$sql) {
+                    $sql = join(" AND ", $join);
                 }
-                if (substr($key, 0, 1) != ":") {
-                    unset($conditions[$key]);
-                    $conditions[":" . $key] = $condition;
-                }
-                $join[] = "`{$key}`{$optstr} :{$key}";
-            }
-            if (!$sql) {
-                $sql = join(" AND ", $join);
             }
             $result["_where"] = " WHERE " . $sql;
             $result["_bindParams"] = $conditions;
