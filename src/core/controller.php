@@ -4,43 +4,48 @@
 class Controller
 {
     public $layout;
-    public $_auto_display = true;
     private $_v;
     private $_data = array();
-    public $tep_dir = "";
-    public function init () {
-    }
+    public $routes;
 
-    public function __construct () {
+    public function init() { }
+
+    public function __construct()
+    {
+        global $__module, $__controller, $__action;
+        $this->routes = ['m' => $__module, 'c' => $__controller, 'a' => $__action];
         $this->init();
     }
 
-    public function __get ($name) {
+    public function __get($name)
+    {
         return $this->_data[$name];
     }
 
-    public function __set ($name, $value) {
+    public function __set($name, $value)
+    {
         $this->_data[$name] = $value;
     }
 
-    public function display ($tpl_name, $return = false) {
-
-        if (!$this->_v) $this->_v = new View(APP_DIR.DS."src" . DS . 'view');
+    public function display($tpl_name, $return = false)
+    {
+        $view_path = APP_DIR . DS . "src" . DS . 'view' . DS . $this->routes['m'];
+        if (!$this->_v) {
+            $this->_v = new View();
+        }
+        //controller 成员对模板外公开
         $this->_v->assign(get_object_vars($this));
         $this->_v->assign($this->_data);
-        if ($this->tep_dir != "") {
-            $tpl_name = $this->tep_dir . DS . $tpl_name;
-        }
-        if ($this->layout) {
-            $this->_v->assign('__template_file', $tpl_name);
-            $tpl_name = $this->layout;
-        }
-        $this->_auto_display = false;
 
+        if ($this->layout) {
+            $this->_v->assign('$__render_body', $view_path . DS . $tpl_name);
+            $tplName = $this->layout;
+        }
         if ($return) {
-            return $this->_v->render($tpl_name);
+            //此方式保留方便action里面直接生成静态文件
+            return $this->_v->render($view_path . DS . $tpl_name);
         } else {
-            echo $this->_v->render($tpl_name);
+            echo $this->_v->render($view_path . DS . $tpl_name);
         }
     }
 

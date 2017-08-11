@@ -220,10 +220,10 @@ class Model
         if (is_array($conditions) && !empty($conditions)) {
             $sql = null;
             $join = array();
-            if (array_values($conditions) === $conditions){
+            if (array_values($conditions) === $conditions) {
                 $sql = $conditions[0][0];
                 $conditions = $conditions[1];
-            }else{
+            } else {
                 foreach ($conditions as $key => $condition) {
                     $optStr = substr($key, strlen($key) - 1, 1);
                     if ($optStr == '>' || $optStr == '<') {
@@ -237,7 +237,8 @@ class Model
                         $conditions[":" . $key] = $condition;
                     }
                     $join[] = "`{$key}`{$optStr} :{$key}";
-                }if (!$sql) {
+                }
+                if (!$sql) {
                     $sql = join(" AND ", $join);
                 }
             }
