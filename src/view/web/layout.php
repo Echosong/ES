@@ -10,7 +10,6 @@
 </head>
 
 <body>
-<?php include $_view_obj->compile($__template_file); ?>
-
+<?php include $__render_body?>
 </body>
 </html>

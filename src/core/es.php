@@ -21,7 +21,6 @@ $__module = $_REQUEST['m'];
 $__controller = $_REQUEST['c'];
 $__action = $_REQUEST['a'];
 
-
 spl_autoload_register(function ($class) use ($__module){
     foreach (array_merge($GLOBALS['plugins'] , ['model','controller' . DS . $__module, './']) as $dir) {
         $file = APP_PATH . '../'. $dir . DS . $class . '.php';

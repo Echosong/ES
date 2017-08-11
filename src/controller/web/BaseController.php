@@ -3,8 +3,6 @@
 Class BaseController extends Controller
 {
 
-    public $tep_dir = 'web';
-    public $layout = "web/layout.php";
 
     /**
      * 初始化 action 执行之前执行
