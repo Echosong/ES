@@ -277,9 +277,9 @@ $userDb->page 返回一个分页数组，模板里面可以根据这个数组去
 //查询单条数据
 public function find ($conditions = array(), $sort = null, $fields = '*')
 
-//sql 直接查询
+//sql 直接查询(注意参数化形式不要直接拼凑sql)
 public function query($sql, $params = array())
-$user = $userDb->query("select * from mo_user where id=? ", ['id'=>1]);
+$user = $userDb->query("select * from mo_user where id=:id ", ['id'=>1]);
 
 //查询统计量等同于 sum($field) 返回直接返回整型
 public function findSum($conditions, $field)
@@ -298,9 +298,9 @@ public function findCount($conditions)
 
 $user->find(['username'=>$username, 'sex>'=>$sex])
 
-方式三： 参数化写法
+方式三： 参数化写法（类似 上面的query 函数方式）
 
-$user->find([ ["username = :username and sex > :sex"],[':username'=>$username, 'sex'=>$sex] ])
+$user->find([ "username = :username and sex > :sex" , [':username'=>$username, 'sex'=>$sex] ])
 
 方式一 可能为存在sql注入问题 特别注意， 方式二简单明了，但是连接 or 条件 为能实现 方式三稍微复杂 建议使用
 ```

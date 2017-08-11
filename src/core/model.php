@@ -220,7 +220,7 @@ class Model
         if (is_array($conditions) && !empty($conditions)) {
             $sql = null;
             $join = array();
-            if (is_array($conditions[0])) {
+            if (array_values($conditions) === $conditions){
                 $sql = $conditions[0][0];
                 $conditions = $conditions[1];
             }else{
