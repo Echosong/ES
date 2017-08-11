@@ -411,6 +411,56 @@ $p->test()
 ```
     同理静态方法调用跟为方便
 
+ ## composer 机制扩展
+   
+现实开发中 大部分功能模块通过composer 安装进去 扩展我们的功能，应该是个非常棒的选择。具体建议做法
+ 
+ 1 . index.php 里面引入 
+ ```php
+  require_once (__DIR__.'/vendor/autoload.php');
+ ``` 
+ 
+ 2 . plugin 里面做个静态类 比如 App.php
+ 
+ ```php
+  use RedisClient\RedisClient;
+  class App
+  {
+      private static $_redis;
+      /**
+       * 缓存实现
+       */
+      public static function redis()
+      {
+          if (empty(self::$_redis)) {
+              self::$_redis = new RedisClient($GLOBALS['redis']);
+          }
+          return self::$_redis;
+      }
+ ```
+ 
+ 3 . 配置文件加入config 构造需要的参数 
+ 
+ ```php
+  'redis'=>[
+         'server' => '192.168.1.61:6379',
+         'timeout' => 2,
+         'password' => 'songfeiok',
+         'database' => 3,
+     ],
+ ```
+ 
+ 3 . 使用
+ 
+```php
+    $redisClient = App::redis()
+    $redisClient->set("A", 1)
+    $redisClient->get("A")
+     .....
+```
+ 
+
+
 ## 支持常驻脚本
 
 ```php
