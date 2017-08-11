@@ -476,7 +476,7 @@ $ php index.php m c a
 ## 联系方式
 
 * bug和建议请发送至：`313690636@qq.com`；
-* 技术支持、技术合作或咨询请联系作者QQ:`313690636`、微信：`echosongfeigang`。
+* 技术支持、技术合作或咨询请联系作者QQ:`313690636`、群：`571627871`。
 * 博客地址 ：http://www.cnblogs.com/echosong/
 
 
