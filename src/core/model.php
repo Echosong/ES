@@ -176,7 +176,7 @@ class Model
             return $is_query ? $sth->fetchAll(PDO::FETCH_ASSOC) : $sth->rowCount();
         }
         $err = $sth->errorInfo();
-        err('Database SQL: "' . $sql . '", ErrorInfo: ' . $err[2], 1);
+        Helper::log('Database SQL: "' . $sql . '", ErrorInfo: ' . $err[2], "error");
     }
 
     public function setDB($db_config_key = 'default', $is_readonly = false)
@@ -187,7 +187,7 @@ class Model
             if (!empty($GLOBALS['mysql'][$db_config_key])) {
                 $db_config = $GLOBALS['mysql'][$db_config_key];
             } else {
-                err("Database Err: Db config '$db_config_key' is not exists!");
+                Helper::log("Database Err: Db config '$db_config_key' is not exists!", "error");
             }
         }
         if ($is_readonly) {
@@ -205,7 +205,7 @@ class Model
                     $db_config['MYSQL_USER'], $db_config['MYSQL_PASS'],
                     array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'' . $db_config['MYSQL_CHARSET'] . '\''));
             } catch (PDOException $e) {
-                err('Database Err: ' . $e->getMessage());
+                Helper::log('Database Err: ' . $e->getMessage(), "error");
             }
         }
         return $GLOBALS['mysql_instances'][$db_config_key];

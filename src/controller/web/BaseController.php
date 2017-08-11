@@ -26,7 +26,7 @@ Class BaseController extends Controller
             return "";
         }
         $pageStr = '';
-        $pageStr .= '</span> 条记录' . ' <span>共  <span style="color: red;">' . $pageArr['total_count'] . $pageArr['total_page'] . ' 页 </span>&nbsp; ';
+        $pageStr .= '</span> 条记录' . ' <span>共  <span style="color: #92d2ff;">' . $pageArr['total_count'] . $pageArr['total_page'] . ' 页 </span>&nbsp; ';
         $current = $pageArr['current_page'];
         if ($current > 1) {
             $pageStr .= '<a href="?page=1' . $param . '">首页</a>&nbsp;<a href="?page=' . strval($current - 1) . $param . '">上一页</a>';
