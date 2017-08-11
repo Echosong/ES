@@ -221,7 +221,7 @@ class Model
             $sql = null;
             $join = array();
             if (array_values($conditions) === $conditions) {
-                $sql = $conditions[0][0];
+                $sql = $conditions[0];
                 $conditions = $conditions[1];
             } else {
                 foreach ($conditions as $key => $condition) {
