@@ -1,6 +1,6 @@
 <?php
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-define('APP_ROOT', '/' );
+define('APP_ROOT', '/');
 define('APP_PATH', dirname(__FILE__) . DS);
 
 Date_default_timezone_set("PRC");
@@ -21,9 +21,9 @@ $__module = $_REQUEST['m'];
 $__controller = $_REQUEST['c'];
 $__action = $_REQUEST['a'];
 
-spl_autoload_register(function ($class) use ($__module){
-    foreach (array_merge($GLOBALS['plugins'] , ['model','controller' . DS . $__module, './']) as $dir) {
-        $file = APP_PATH . '../'. $dir . DS . $class . '.php';
+spl_autoload_register(function ($class) use ($__module) {
+    foreach (array_merge($GLOBALS['plugins'], ['model', 'controller' . DS . $__module, './']) as $dir) {
+        $file = APP_PATH . '../' . $dir . DS . $class . '.php';
         if (file_exists($file)) {
             include $file;
         }

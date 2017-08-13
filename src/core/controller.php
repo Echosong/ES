@@ -12,6 +12,8 @@ class Controller
 
     public function __construct()
     {
+        global $__module, $__controller, $__action;
+        $this->routes = ['m' => $__module, 'c' => $__controller, 'a' => $__action];
         $this->init();
     }
 
@@ -27,8 +29,6 @@ class Controller
 
     public function display($tpl_name, $return = false)
     {
-        global $__module, $__controller, $__action;
-        $this->routes = ['m' => $__module, 'c' => $__controller, 'a' => $__action];
         $view_path = APP_DIR . DS . "src" . DS . 'view' . DS . $this->routes['m'];
         if (!$this->_v) {
             $this->_v = new View();
