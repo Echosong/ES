@@ -9,7 +9,7 @@ Class BaseController extends Controller
      */
     public function init()
     {
-
+        $this->layout = "layout.php";
     }
 
     /**

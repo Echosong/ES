@@ -4,11 +4,6 @@
 
 class MainController extends BaseController
 {
-
-    public function __construct(){
-        $this->layout = "layout.php";
-    }
-
     public function getLogin () {
 
     }
