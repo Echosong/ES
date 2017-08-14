@@ -61,7 +61,7 @@ ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 
         rewrite ^(.*)$ /index.php break;
     }
 
-### 配置域名访问比如： http://localhost:8080/
+### 配置域名访问比如： http://es.dev/ (hosts 修改)
 
 ![展现][2]
 
