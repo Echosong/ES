@@ -7,6 +7,7 @@ class Controller
     private $_v;
     private $_data = array();
     public $routes;
+    public $template_dir ;
 
     public function init() { }
 
@@ -14,6 +15,7 @@ class Controller
     {
         global $__module, $__controller, $__action;
         $this->routes = ['m' => $__module, 'c' => $__controller, 'a' => $__action];
+        $this->template_dir =  APP_DIR . DS . "src" . DS . 'view' . DS . $this->routes['m'];
         $this->init();
     }
 
@@ -29,7 +31,6 @@ class Controller
 
     public function display($tpl_name, $return = false)
     {
-        $view_path = APP_DIR . DS . "src" . DS . 'view' . DS . $this->routes['m'];
         if (!$this->_v) {
             $this->_v = new View();
         }
@@ -38,14 +39,14 @@ class Controller
         $this->_v->assign($this->_data);
 
         if ($this->layout) {
-            $this->_v->assign('__render_body', $view_path . DS . $tpl_name);
+            $this->_v->assign('__render_body',  $this->template_dir . DS . $tpl_name);
             $tpl_name = $this->layout;
         }
         if ($return) {
             //此方式保留方便action里面直接生成静态文件
-            return $this->_v->render($view_path . DS . $tpl_name);
+            return $this->_v->render( $this->template_dir . DS . $tpl_name);
         } else {
-            echo $this->_v->render($view_path . DS . $tpl_name);
+            echo $this->_v->render( $this->template_dir . DS . $tpl_name);
         }
     }
 
