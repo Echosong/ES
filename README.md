@@ -34,6 +34,37 @@ ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 
 
 ```
 
+
+## 安装
+
+### 下载
+    git clone https://github.com/Echosong
+
+### 各种web 服务器配置重定向
+
+.hitaccess(Apache):
+
+    RewriteEngine On
+    RewriteBase /
+    
+    # Allow any files or directories that exist to be displayed directly
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    RewriteRule ^(.*)$ index.php?$1 [QSA,L]
+ 
+.htaccess(Nginx):
+    
+    rewrite ^/(.*)/$ /$1 redirect;
+    
+    if (!-e $request_filename){
+        rewrite ^(.*)$ /index.php break;
+    }
+
+### 配置域名访问比如： http://localhost:8080/
+
+![展现][2]
+
 ## 具体实现功能
 
 ### 配置文件
@@ -481,4 +512,5 @@ $ php index.php m c a
 
 
   [1]:http://dbbsale.oss-cn-shanghai.aliyuncs.com/keqiang/32.ico
+  [2]:http://dbbsale.oss-cn-shanghai.aliyuncs.com/keqiang/es.PNG
 
