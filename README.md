@@ -38,7 +38,7 @@ ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 
 ## 安装
 
 ### 下载
-    git clone https://github.com/Echosong
+    git clone https://github.com/Echosong（web建立到当前文件夹）
 
 ### 各种web 服务器配置重定向
 
