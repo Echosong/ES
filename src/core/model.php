@@ -15,7 +15,7 @@ class Model
         if ($table_name) {
             $this->table_name = $GLOBALS['prefix'] . $table_name;
         }
-        if (empty($table_name)) {
+        if (empty($this->table_name)) {
             $this->table_name = $this->view_name;
         } else {
             if (substr($this->table_name, 0, strlen($GLOBALS['prefix'])) != $GLOBALS['prefix']) {
