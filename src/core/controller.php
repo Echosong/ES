@@ -29,8 +29,12 @@ class Controller
         $this->_data[$name] = $value;
     }
 
-    public function display($tpl_name, $return = false)
+    public function display($tpl_name = "", $return = false)
     {
+        if(empty($tpl_name)){
+            $tpl_name = $this->routes['c'].DS.$this->routes['a'].".php";
+        }
+
         if (!$this->_v) {
             $this->_v = new View();
         }
