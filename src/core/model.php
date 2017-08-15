@@ -1,11 +1,10 @@
 <?php
 
-
 class Model
 {
     public $page;
     public $table_name;
-
+    public $view_name;
     private $_master_db;
     private $_slave_db;
     private $sql = array();
@@ -15,6 +14,13 @@ class Model
         global $GLOBALS;
         if ($table_name) {
             $this->table_name = $GLOBALS['prefix'] . $table_name;
+        }
+        if (empty($table_name)) {
+            $this->table_name = $this->view_name;
+        } else {
+            if (substr($this->table_name, 0, strlen($GLOBALS['prefix'])) != $GLOBALS['prefix']) {
+                $this->table_name = $GLOBALS['prefix'] . $this->table_name;
+            }
         }
     }
 
