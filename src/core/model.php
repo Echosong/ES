@@ -1,10 +1,12 @@
 <?php
 
+
 class Model
 {
     public $page;
     public $table_name;
     public $view_name;
+
     private $_master_db;
     private $_slave_db;
     private $sql = array();
@@ -205,6 +207,7 @@ class Model
 
     private function _db_instance($db_config, $db_config_key)
     {
+
         if (empty($GLOBALS['mysql_instances'][$db_config_key])) {
             try {
                 $GLOBALS['mysql_instances'][$db_config_key] = new PDO('mysql:dbname=' . $db_config['MYSQL_DB'] . ';host=' . $db_config['MYSQL_HOST'] . ';port=' . $db_config['MYSQL_PORT'],
@@ -217,6 +220,26 @@ class Model
         return $GLOBALS['mysql_instances'][$db_config_key];
     }
 
+    private function _wherein($sql, $inArray)
+    {
+        foreach ($inArray as $key => $value) {
+            if (!is_array($value)) {
+                continue;
+            }
+            $itemSql = "0";
+            unset($inArray[$key]);
+            foreach ($value as $k => $item) {
+                $itemKey = "{$key}_{$k}";
+
+                $itemSql .= ", {$itemKey}";
+                $inArray[$itemKey] = $item;
+            }
+            $sql = str_replace($key, $itemSql, $sql);
+        }
+        return [$sql, $inArray];
+    }
+
+
     private function _where($conditions)
     {
         $result = array("_where" => " ", "_bindParams" => array());
@@ -227,8 +250,7 @@ class Model
             $sql = null;
             $join = array();
             if (array_values($conditions) === $conditions) {
-                $sql = $conditions[0];
-                $conditions = $conditions[1];
+                list($sql, $conditions) = $this->_wherein($conditions[0], $conditions[1]);
             } else {
                 foreach ($conditions as $key => $condition) {
                     $optStr = substr($key, strlen($key) - 1, 1);

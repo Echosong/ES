@@ -4,9 +4,12 @@ define('APP_ROOT', '/');
 define('APP_PATH', dirname(__FILE__) . DS);
 
 Date_default_timezone_set("PRC");
-session_start();
-
 $GLOBALS = require(APP_PATH . '../config.php');
+
+if($GLOBALS['start_session']){
+    session_start();
+}
+
 require_once(APP_PATH . "helper.php");
 require_once(APP_PATH . "controller.php");
 require_once(APP_PATH . "model.php");
