@@ -11,7 +11,8 @@ $config = array(
     'debug' => true,
     'plugins' => ['include', 'plugin'], //扩展目录
     'static' => "res",
-    'logPath' => 'logs' //日志路径，请保证路径权限可写
+    'logPath' => 'logs', //日志路径，请保证路径权限可写
+	'start_session'=> false //session 默认不开启
 );
 
 $dbb = array(
