@@ -497,9 +497,9 @@ $p->test()
 ```php
 //能处理shell 请求
 if (!empty($argc)) {
-    $_POST['m'] = $argv[1];
-    $_POST['c'] = $argv[2];
-    $_POST['a'] = $argv[3];
+    $_GET['m'] = $argv[1];
+    $_GET['c'] = $argv[2];
+    $_GET['a'] = $argv[3];
 }
 $ php index.php m c a
 ```
