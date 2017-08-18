@@ -98,7 +98,7 @@ Class Helper
         $httpMethod = strtolower($_SERVER['REQUEST_METHOD']);
         $action_name = $httpMethod . ucfirst($__action);
 
-        if (!class_exists($controller_name, true)) {
+        if (!class_exists(ucfirst($controller_name), true)) {
             die("Err: Controller '$controller_name' is not exists!");
         }
         $controller_obj = new $controller_name();
