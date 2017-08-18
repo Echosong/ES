@@ -6,7 +6,7 @@ define('APP_PATH', dirname(__FILE__) . DS);
 Date_default_timezone_set("PRC");
 $GLOBALS = require(APP_PATH . '../config.php');
 
-if($GLOBALS['start_session']){
+if($GLOBALS['startSession']){
     session_start();
 }
 
