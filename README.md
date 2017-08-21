@@ -63,7 +63,7 @@ ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 
 
 ### 配置域名访问比如： http://es.dev/ (hosts 修改)
 
-![展现][2]
+(ES 和 Laravel 性能比较 http://esassets.oss-cn-shanghai.aliyuncs.com/x.png )
 
 ## 具体实现功能
 
@@ -512,5 +512,5 @@ $ php index.php m c a
 
 
   [1]:http://dbbsale.oss-cn-shanghai.aliyuncs.com/keqiang/32.ico
-  [2]:http://esassets.oss-cn-shanghai.aliyuncs.com/x.png
+
 
