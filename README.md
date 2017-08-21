@@ -512,5 +512,5 @@ $ php index.php m c a
 
 
   [1]:http://dbbsale.oss-cn-shanghai.aliyuncs.com/keqiang/32.ico
-  [2]:http://dbbsale.oss-cn-shanghai.aliyuncs.com/keqiang/es.PNG
+  [2]:http://esassets.oss-cn-shanghai.aliyuncs.com/x.png
 
