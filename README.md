@@ -6,9 +6,9 @@ ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 
 
 ### 开发缘由
 
-与其说开发此框架，更准确说法应该是一次代码的整理，本人在接触将近10年的php开发过程中，陆续也接触了很多开发框架，和开发模式。不仅仅php
+与其说开发此框架，更准确说法应该是一次代码的整理，本人在接触将近10年的php开发过程中，陆续也接触了一些优秀的框架。不仅仅php
 有asp.net mvc、php laravel、php yii、python web.py、python django、golang beego 等等 框架各自有各自的优势，但是使用场景
-和性能方面各有所长，在2015年给公司同事分享mvc核心思想的时候， 我在想既然用了这么多框架那是不是自己整理出一些核心的，或者说是开发过程中最需要的部分，
+和性能方面各有所长，在2015年给公司同事分享mvc核心思想的时候， 我在想既然用了这些框架那是不是自己整理出一些核心的、或者说是开发过程中最需要的部分，
 来写自己的这么一个极简型框架，如此便有了 ES。
 
 
@@ -136,7 +136,7 @@ $dbb = array(
 ```
 #### 业务自定义配置
  
- 自定义的业务方面的配置，可以自己定义个配置文件，在config.php 进行引入，也可以直接在config.php 进行修改配置，后面使用全部用
+ 自定义的业务方面的配置，可以自己定义个配置文件，在config.php 进行引入，也可以直接在config.php 进行修改配置添加节点，后面使用全部用
  
  $GLOBALS = require(APP_PATH . '../config.php');
 $GLOBALS 全局 数组配置进行获取相应的配置项。
@@ -331,7 +331,7 @@ $user->find(['username'=>$username, 'sex>'=>$sex])
 
 方式三： 参数化写法（类似 上面的query 函数方式）
 
-$user->find([ "username = :username and sex > :sex" , [':username'=>$username, 'sex'=>$sex] ])
+$user->find([ "username = :username and sex > :sex and id in (:ids)" , [':username'=>$username, 'sex'=>$sex, 'ids'=>[1,3,4,..] ] ])
 
 方式一 可能为存在sql注入问题 特别注意， 方式二简单明了，但是连接 or 条件 为能实现 方式三稍微复杂 建议使用
 ```
@@ -415,7 +415,7 @@ es 采用php原始 脚本作为模板标记语言， 主要好处有
 ```
     
 ## 扩展引用
-es 本身最求灵活，极简单，所有没有引入其他重型模板的功能点，比如cache, 链接redis 等等，那么使用者，如果需要
+es 本身最求灵活，极简单，所有没有引入其他重型模板的功能点，比如 cache 、http 等常用模块，那么使用者，如果需要
 相关功能怎么办能
 
 步骤如下：
@@ -444,7 +444,7 @@ $p->test()
 
  ## composer 机制扩展
    
-现实开发中 大部分功能模块通过composer 安装进去 扩展我们的功能，应该是个非常棒的选择。具体建议做法
+现实开发中大部分功能模块通过composer 安装进去 扩展我们的功能，这是非常棒的选择。具体建议做法
  
  1 . index.php 里面引入 
  ```php
@@ -491,7 +491,6 @@ $p->test()
 ```
  
 
-
 ## 支持常驻脚本
 
 ```php
@@ -503,6 +502,7 @@ if (!empty($argc)) {
 }
 $ php index.php m c a
 ```
+    注意 在脚本的 action 跟 web 有区别，shell 的 controller 能执行的函数是 action 前缀的方法，比如 MainController -> actionIndex
 
 ## 联系方式
 
