@@ -502,7 +502,7 @@ if (!empty($argc)) {
 }
 $ php index.php m c a
 ```
-    注意 在脚本的 action 跟 web 有区别，shell 的 controller 能执行的函数是 action 前缀的方法，比如 MainController -> actionIndex
+    注意 在脚本的 action 跟 web 有区别，shell的controller 能执行的函数是 action前缀的方法，比如 MainController -> actionIndex
 
 ## 联系方式
 
