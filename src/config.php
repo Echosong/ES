@@ -12,7 +12,8 @@ $config = array(
     'plugins' => ['include', 'plugin'], //扩展目录
     'static' => "res",
     'logPath' => 'logs', //日志路径，请保证路径权限可写
-    'startSession' => false //session 默认不开启
+    'startSession' => false, //session 默认不开启
+    'limitMax' => 1000 //保护数据库以免一失误导致大查询
 );
 
 $dbb = array(

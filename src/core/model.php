@@ -37,7 +37,12 @@ class Model
             $limit = $this->pager($limit[0], $limit[1], $limit[2], $total[0]['M_COUNTER']);
             $limit = empty($limit) ? '' : ' LIMIT ' . $limit['offset'] . ',' . $limit['limit'];
         } else {
-            $limit = !empty($limit) ? ' LIMIT ' . $limit : '';
+            $limit_max = $GLOBALS["limitMax"] ? $GLOBALS['limitMax'] : 1000;
+            if (empty($limit)) {
+                $limit = " LIMIT {$limit_max}";
+            } else {
+                $limit = intval($limit_max) < $limit ? " LIMIT {$limit_max} " : " LIMIT {$limit} ";
+            }
         }
         return $this->query('SELECT ' . $fields . $sql . $sort . $limit, $conditions["_bindParams"]);
     }
