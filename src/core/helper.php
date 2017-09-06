@@ -191,12 +191,13 @@ Class Helper
      * @param $defult
      * @return mixed
      */
-    public static function request($name, $defult)
+    public static function request($name, $defult, $isSafe= true)
     {
-        if(empty($_REQUEST[$name])){
+        if(!isset($_REQUEST[$name])){
             return $defult;
         }else{
-            return $_REQUEST[$name];
+            $param = str_replace("''", "",$_REQUEST[$name]);
+            return $param;
         }
     }
 
