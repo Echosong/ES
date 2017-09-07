@@ -1,5 +1,6 @@
 # ![运营商][1] ES
-
+[![Stars](https://img.shields.io/github/stars/echosong/es.svg)](https://github.com/es/echosong/stargazers)
+[![Forks](https://img.shields.io/github/forks/echosong/es.svg)](https://github.com/es/echosong/network)
 
 ## 框架简介
 ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 以“快速开发、轻松上手、高速执行”为理念，助你成为web开发的能手 ！
