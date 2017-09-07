@@ -7,7 +7,7 @@ class Model
     public $table_name;
     public $view_name;
 
-    private $_master_db;
+    public $_master_db;
     private $_slave_db;
     private $sql = array();
 
