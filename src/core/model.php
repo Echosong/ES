@@ -70,7 +70,6 @@ class Model
             $values[":M_UPDATE_" . $k] = $v;
             $set_value[] = '`' . $k . "`=" . ":M_UPDATE_" . $k;
         }
-        var_dump($set_value);
         $conditions = $this->_where($conditions);
         return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ', $set_value) . $conditions["_where"],
             $conditions["_bindParams"] + $values);
