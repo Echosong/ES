@@ -348,24 +348,20 @@ public function create($row);
 
 演示
 $userDb = new Model('user');
+//插入单条记录
 $userDb->create(
     ['username'=>'es',
       'password'=>'123456',
-      'sex'=>1
+      'sex'=>1,
+      '#created'=>'CURRENT_TIMESTAMP()' //带#的key 后面的value 可以直接是mysql 内置函数
     ]
 );
 
-/** 批量表插入记录
- * @param $rows
- * @return mixed
- */
-public function creates($rows);
-
-演示
-$userDb = new Model('user');
+批量插入
 $userDb->create(
     [
-        ['username'=>'es',password'=>'123456'],['username'=>'es',password'=>'1234564']...
+        ['username'=>'es',password'=>'123456','#created'=>'CURRENT_TIMESTAMP()'],
+        ['username'=>'es',password'=>'1234564', '#created'=>'CURRENT_TIMESTAMP()' ]...
     ]
 );
 
@@ -382,7 +378,8 @@ $userDb->update(
     ['id'=>1],
     ['username'=>'es',
       'password'=>'123456',
-      'sex'=>1
+      '+sex'=>1, // 操作符号支持 + - * / 转换成sql  sex = sex+1
+      '#created'=>'CURRENT_TIMESTAMP()' //支持mysql 函数
     ]
 );
 ```

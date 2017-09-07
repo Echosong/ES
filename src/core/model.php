@@ -55,13 +55,24 @@ class Model
 
     public function update($conditions, $row)
     {
-        $values = array();
+        $values = [];
         foreach ($row as $k => $v) {
+            $op = substr($k, 0, 1);
+            if($op == "+" || $op == "-" || $op == "*" || $op == "/"){
+                $k = substr($k,1);
+                $set_value[] = '`' . $k  . "`= {$k}{$op}{$v}";
+                continue;
+            }
+            if (strpos($k, '#') === 0) {
+                $set_value[] = '`' . substr($k,1)  . "`=".$v ;
+                continue;
+            }
             $values[":M_UPDATE_" . $k] = $v;
-            $setstr[] = '`' . $k . "`=" . ":M_UPDATE_" . $k;
+            $set_value[] = '`' . $k . "`=" . ":M_UPDATE_" . $k;
         }
+        var_dump($set_value);
         $conditions = $this->_where($conditions);
-        return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ', $setstr) . $conditions["_where"],
+        return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ', $set_value) . $conditions["_where"],
             $conditions["_bindParams"] + $values);
     }
 
@@ -71,44 +82,37 @@ class Model
         return $this->execute("DELETE FROM " . $this->table_name . $conditions["_where"], $conditions["_bindParams"]);
     }
 
-    public function create($row)
+    public function create($rows)
     {
-        $values = array();
-        foreach ($row as $k => $v) {
-            $keys[] = "`{$k}`";
-            $values[":" . $k] = $v;
-            $marks[] = ":" . $k;
-        }
-        $this->execute("INSERT INTO " . $this->table_name . " (" . implode(', ', $keys) . ") VALUES (" . implode(', ',
-                $marks) . ")", $values);
-        return $this->_master_db->lastInsertId();
-    }
-
-    public function creates($rows)
-    {
+        $keys = [];
+        $stack = [];
+        $map = [];
         if (!is_array($rows[0]) || empty($rows[0])) {
-            $this->create($rows);
-        }
-        if (!($this->_master_db)) {
-            $this->setDB('default');
+            $rows = [$rows];
         }
         foreach ($rows[0] as $k => $v) {
+            if (strpos($k, '#') === 0) {
+                $k = substr($k, 1);
+            }
             $keys[] = "`{$k}`";
-            $marks[] = ":" . $k;
         }
-        $sql = "INSERT INTO " . $this->table_name . " (" . implode(', ', $keys) . ") VALUES (" . implode(', ',
-                $marks) . ")";
-        $this->_master_db->beginTransaction();
-
-        $sth = $this->_master_db->prepare($sql);
-        foreach ($rows as $row) {
+        foreach ($rows as $key => $row) {
             $values = [];
             foreach ($row as $k => $v) {
-                $values[":" . $k] = $v;
+                if (strpos($k, '#') === 0) {
+                    $values[] = $v;
+                    continue;
+                }
+                $map_key = ":{$k}_{$key}";
+                $values[] = $map_key;
+                $map[$map_key] = $v;
             }
-            $sth->execute($values);
+            $stack[] = '(' . implode($values, ', ') . ')';
         }
-        $this->_master_db->commit();
+        $sql = "INSERT INTO " . $this->table_name . " (" . implode(', ', $keys) . ") VALUES " . implode(', ',
+                $stack) ;
+        $this->execute($sql, $map);
+        return $this->_master_db->lastInsertId();
     }
 
     public function findCount($conditions)

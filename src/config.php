@@ -23,8 +23,8 @@ $dbb = array(
             'MYSQL_HOST' => '127.0.0.1',
             'MYSQL_PORT' => '3306',
             'MYSQL_USER' => 'root',
-            'MYSQL_DB' => 'db_demo',
-            'MYSQL_PASS' => '123456',
+            'MYSQL_DB' => 'db_beego',
+            'MYSQL_PASS' => '',
             'MYSQL_CHARSET' => 'utf8',
         ],
         //从库可以加入多个实例
@@ -32,12 +32,12 @@ $dbb = array(
             'MYSQL_HOST' => '127.0.0.1',
             'MYSQL_PORT' => '3306',
             'MYSQL_USER' => 'root',
-            'MYSQL_DB' => 'db_demo',
+            'MYSQL_DB' => 'db_beego',
             'MYSQL_PASS' => '123456',
             'MYSQL_CHARSET' => 'utf8',
         ]
     ],
-    'prefix' => 'mo_',
+    'prefix' => 'tb_',
 );
 
 return $dbb + $config;
