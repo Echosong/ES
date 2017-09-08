@@ -58,20 +58,21 @@ class Model
         $values = [];
         foreach ($row as $k => $v) {
             $op = substr($k, 0, 1);
-            if($op == "+" || $op == "-" || $op == "*" || $op == "/"){
-                $k = substr($k,1);
-                $set_value[] = '`' . $k  . "`= {$k}{$op}{$v}";
+            if ($op == "+" || $op == "-" || $op == "*" || $op == "/") {
+                $k = substr($k, 1);
+                $set_value[] = '`' . $k . "`= {$k}{$op}{$v}";
                 continue;
             }
             if (strpos($k, '#') === 0) {
-                $set_value[] = '`' . substr($k,1)  . "`=".$v ;
+                $set_value[] = '`' . substr($k, 1) . "`=" . $v;
                 continue;
             }
             $values[":M_UPDATE_" . $k] = $v;
             $set_value[] = '`' . $k . "`=" . ":M_UPDATE_" . $k;
         }
         $conditions = $this->_where($conditions);
-        return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ', $set_value) . $conditions["_where"],
+        return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ',
+                $set_value) . $conditions["_where"],
             $conditions["_bindParams"] + $values);
     }
 
@@ -109,7 +110,7 @@ class Model
             $stack[] = '(' . implode($values, ', ') . ')';
         }
         $sql = "INSERT INTO " . $this->table_name . " (" . implode(', ', $keys) . ") VALUES " . implode(', ',
-                $stack) ;
+                $stack);
         $this->execute($sql, $map);
         return $this->_master_db->lastInsertId();
     }
@@ -215,7 +216,6 @@ class Model
 
     private function _db_instance($db_config, $db_config_key)
     {
-
         if (empty($GLOBALS['mysql_instances'][$db_config_key])) {
             try {
                 $GLOBALS['mysql_instances'][$db_config_key] = new PDO('mysql:dbname=' . $db_config['MYSQL_DB'] . ';host=' . $db_config['MYSQL_HOST'] . ';port=' . $db_config['MYSQL_PORT'],
