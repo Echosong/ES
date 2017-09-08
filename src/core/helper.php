@@ -30,13 +30,13 @@ Class Helper
         $a = empty($a) ? $rewrite['a'] : $a;
         $params = empty($param) ? '' : http_build_query($param);
         if ($rewrite['isRewrite']) {
-            if(!empty($params)){
+            if (!empty($params)) {
                 $params = "?$params";
             }
             if ($__module == $rewrite['m'][0]) {
                 $url = "http://" . $_SERVER["HTTP_HOST"] . '/' . $c . '/' . $a . $params;
             } else {
-                $url = "http://" . $_SERVER["HTTP_HOST"] . '/' . $__module . '/' . $c . '/' . $a .$params;
+                $url = "http://" . $_SERVER["HTTP_HOST"] . '/' . $__module . '/' . $c . '/' . $a . $params;
             }
         } else {
             if ($__module != $rewrite['m'][0]) {
@@ -55,25 +55,20 @@ Class Helper
     {
         $rewrite = $GLOBALS['rewrite'];
         $requestURI = $_SERVER['REQUEST_URI'];
-        $requestURI = str_replace('?'.$_SERVER["QUERY_STRING"], '',$requestURI);
+        $requestURI = str_replace('?' . $_SERVER["QUERY_STRING"], '', $requestURI);
+        $list_route = [$rewrite['m'][0], $rewrite['c'], $rewrite['a']];
         if ($rewrite['isRewrite'] && !strpos($requestURI, '.php')) {
             $route = explode("/", $requestURI);
-            if (!empty($route[1])) {
-                if (in_array($route[1], $rewrite['m'])) {
-                    $_m = $route[1];
-                    list($_c, $_a) = array_slice($route, 2, 3);
-                } else {
-                    if(count($route)>2 ){
-                        list($_c, $_a) = array_slice($route, 1, 2);
-                    }else{
-                        $_c = $route[1];
-                    }
-                }
+            if (in_array($route[1], $rewrite['m'])) {
+                $list_route[0] = $route[1];
+                $route = array_slice($route, 1, count($route));
             }
+            $list_route[1] = empty($route[1]) ? $list_route[1] : $route[1];
+            $list_route[2] = empty($route[2]) ? $list_route[2] : $route[2];
         }
-        $_GET['m'] = strtolower( empty($_m)? $rewrite['m'][0]:$_m);
-        $_GET['c'] = strtolower(empty($_c)? $rewrite['c']:$_c );
-        $_GET['a'] = strtolower(empty($_a)? $rewrite['a']:$_a);
+        $_GET['m'] = strtolower(self::request("m", $list_route[0]));
+        $_GET['c'] = strtolower(self::request("c", $list_route[1]));
+        $_GET['a'] = strtolower(self::request("a", $list_route[2]));
     }
 
     /**
@@ -130,7 +125,7 @@ Class Helper
      * @param string $url
      * @param int $code 非0 错误提示
      */
-    public static function redirect($msg,  $url = '',$code= 0)
+    public static function redirect($msg, $url = '', $code = 0)
     {
 
         if (isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest") {
@@ -185,7 +180,7 @@ Class Helper
         error_log(date('Ymd H:i:s') . "  " . $errMsg . "\r\n", 3, $logPath);
     }
 
-    /**自定义错误
+    /** 自定义错误
      * @param $errno 错误码
      * @param $errstr 错误说明
      * @param $errfile 错误文件
@@ -196,10 +191,10 @@ Class Helper
         GLOBAL $GLOBALS;
         $errMsg = "[{$errno}] {$errstr} {$errfile} {$errline} ";
         self::log($errMsg, "sys_error");
-        if($GLOBALS["debug"]){
+        if ($GLOBALS["debug"]) {
             echo $errMsg;
         }
-        if($errno == E_ERROR){
+        if ($errno == E_ERROR) {
             die();
         }
     }
@@ -211,16 +206,15 @@ Class Helper
      * @param $defult
      * @return mixed
      */
-    public static function request($name, $defult, $isSafe= true)
+    public static function request($name, $defult, $isSafe = true)
     {
-        if(!isset($_REQUEST[$name])){
+        if (!isset($_REQUEST[$name])) {
             return $defult;
-        }else{
-            $param = str_replace("''", "",$_REQUEST[$name]);
+        } else {
+            $param = str_replace("''", "", $_REQUEST[$name]);
             return $param;
         }
     }
-
 
 
 }
