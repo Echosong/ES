@@ -15,6 +15,8 @@ require_once(APP_PATH . "controller.php");
 require_once(APP_PATH . "model.php");
 require_once(APP_PATH . "view.php");
 
+set_error_handler( ["Helper", "customError"]);
+
 //设置路由规范
 Helper::setRoute();
 

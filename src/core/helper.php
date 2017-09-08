@@ -48,7 +48,6 @@ Class Helper
         return $url;
     }
 
-
     /**
      * 设置路由
      */
@@ -61,18 +60,20 @@ Class Helper
             $route = explode("/", $requestURI);
             if (!empty($route[1])) {
                 if (in_array($route[1], $rewrite['m'])) {
-                    $_GET['m'] = $route[1];
-                    list($_GET['c'], $_GET['a']) = array_slice($route, 2, 3);
+                    $_m = $route[1];
+                    list($_c, $_a) = array_slice($route, 2, 3);
                 } else {
-                    $_GET['m'] = $rewrite['m'][0];
-                    list($_GET['c'], $_GET['a']) = array_slice($route, 1, 2);
+                    if(count($route)>2 ){
+                        list($_c, $_a) = array_slice($route, 1, 2);
+                    }else{
+                        $_c = $route[1];
+                    }
                 }
             }
         }
-        $_GET['m'] = strtolower( empty($_GET['m'])? $rewrite['m'][0]:$_GET['m']);
-        $_GET['c'] = strtolower(empty($_GET['c'])? $rewrite['c']:$_GET['c'] );
-        $_GET['a'] = strtolower(empty($_GET['a'])? $rewrite['a']:$_GET['a']);
-
+        $_GET['m'] = strtolower( empty($_m)? $rewrite['m'][0]:$_m);
+        $_GET['c'] = strtolower(empty($_c)? $rewrite['c']:$_c );
+        $_GET['a'] = strtolower(empty($_a)? $rewrite['a']:$_a);
     }
 
     /**
@@ -184,6 +185,25 @@ Class Helper
         error_log(date('Ymd H:i:s') . "  " . $errMsg . "\r\n", 3, $logPath);
     }
 
+    /**自定义错误
+     * @param $errno 错误码
+     * @param $errstr 错误说明
+     * @param $errfile 错误文件
+     * @param $errline 错误行号
+     */
+    public static function customError($errno, $errstr, $errfile, $errline)
+    {
+        GLOBAL $GLOBALS;
+        $errMsg = "[{$errno}] {$errstr} {$errfile} {$errline} ";
+        self::log($errMsg, "sys_error");
+        if($GLOBALS["debug"]){
+            echo $errMsg;
+        }
+        if($errno == E_ERROR){
+            die();
+        }
+    }
+
 
     /**
      * request获取信息设置默认值
@@ -200,5 +220,7 @@ Class Helper
             return $param;
         }
     }
+
+
 
 }
