@@ -200,19 +200,18 @@ Class Helper
     }
 
 
-    /**
-     * request获取信息设置默认值
+    /**request获取信息设置默认值
      * @param $name
-     * @param $defult
+     * @param $default
+     * @param bool $isSafe
      * @return mixed
      */
-    public static function request($name, $defult, $isSafe = true)
+    public static function request($name, $default, $isSafe = true)
     {
         if (!isset($_REQUEST[$name])) {
-            return $defult;
+            return $default;
         } else {
-            $param = str_replace("''", "", $_REQUEST[$name]);
-            return $param;
+            return $isSafe ? str_replace("''", "", $_REQUEST[$name]) : $_REQUEST[$name];
         }
     }
 
