@@ -6,9 +6,10 @@ define('APP_DIR', realpath('./'));
 
 //能处理shell 请求
 if (!empty($argc)) {
-    $_GET['m'] = $argv[1];
-    $_GET['c'] = $argv[2];
-    $_GET['a'] = $argv[3];
+    $_REQUEST['m'] = $argv[1];
+    $_REQUEST['c'] = $argv[2];
+    $_REQUEST['a'] = $argv[3];
+    $_REQUEST['p'] = empty($argv[4])? '': $argv[4];
 }
 
 require(APP_DIR . '/src/core/es.php');

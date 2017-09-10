@@ -6,7 +6,7 @@ define('APP_PATH', dirname(__FILE__) . DS);
 Date_default_timezone_set("PRC");
 $GLOBALS = require(APP_PATH . '../config.php');
 
-if($GLOBALS['startSession']){
+if(!empty($GLOBALS['startSession'])){
     session_start();
 }
 
@@ -21,7 +21,6 @@ set_error_handler( ["Helper", "customError"]);
 Helper::setRoute();
 
 //定义全局变量
-$_REQUEST = array_merge($_POST, $_GET);
 $__module = $_REQUEST['m'];
 $__controller = $_REQUEST['c'];
 $__action = $_REQUEST['a'];
@@ -37,5 +36,3 @@ spl_autoload_register(function ($class) use ($__module) {
 
 //开始运行
 Helper::start();
-
-
