@@ -11,7 +11,7 @@ class MainController extends Controller
     public function actionIndex()
     {
         while (true){
-            echo "todo";
+            echo "todo 业务参数：".Helper::request("p", "");
             sleep(1);
         }
     }
