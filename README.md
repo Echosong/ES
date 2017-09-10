@@ -493,11 +493,13 @@ $p->test()
 ```php
 //能处理shell 请求
 if (!empty($argc)) {
-    $_GET['m'] = $argv[1];
-    $_GET['c'] = $argv[2];
-    $_GET['a'] = $argv[3];
+    $_REQUEST['m'] = $argv[1];
+    $_REQUEST['c'] = $argv[2];
+    $_REQUEST['a'] = $argv[3];
+    $_REQUEST['p'] = empty($argv[4])? '': $argv[4];
 }
-$ php index.php m c a
+
+$ php index.php m c a "自定义参数"
 ```
     注意 在脚本的 action 跟 web 有区别，shell的controller 能执行的函数是 action前缀的方法，比如 MainController -> actionIndex
 
