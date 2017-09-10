@@ -143,7 +143,6 @@ Class Helper
             }
             exit("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><script>function sptips(){  {$strAlert} location.href=\"{$url}\";}</script></head><body onload=\"sptips()\"></body></html>");
         }
-
     }
 
     /**
@@ -169,8 +168,8 @@ Class Helper
     }
 
     /** 日志记录
-     * @param $errmsg
-     * @param $level debug, info, error
+     * @param $errMsg
+     * @param $level (debug, info, error)
      */
     public static function log($errMsg, $level = 'info')
     {
@@ -179,38 +178,37 @@ Class Helper
     }
 
     /** 自定义错误
-     * @param $errno 错误码
-     * @param $errstr 错误说明
-     * @param $errfile 错误文件
-     * @param $errline 错误行号
+     * @param $errNo (错误码)
+     * @param $errStr (错误说明)
+     * @param $errFile 错误文件
+     * @param $errLine 错误行号
      */
-    public static function customError($errno, $errstr, $errfile, $errline)
+    public static function customError($errNo, $errStr, $errFile, $errLine)
     {
         GLOBAL $GLOBALS;
-        $errMsg = "[{$errno}] {$errstr} {$errfile} {$errline} ";
+        $errMsg = "[{$errNo}] {$errStr} {$errFile} {$errLine} ";
         self::log($errMsg, "sys_error");
         if ($GLOBALS["debug"]) {
             echo $errMsg;
         }
-        if ($errno == E_ERROR) {
+        if ($errNo == E_ERROR) {
             die();
         }
     }
 
 
-    /**
-     * request获取信息设置默认值
+    /**request获取信息设置默认值
      * @param $name
-     * @param $defult
+     * @param $default
+     * @param bool $isSafe
      * @return mixed
      */
-    public static function request($name, $defult, $isSafe = true)
+    public static function request($name, $default, $isSafe = true)
     {
         if (!isset($_REQUEST[$name])) {
-            return $defult;
+            return $default;
         } else {
-            $param = str_replace("''", "", $_REQUEST[$name]);
-            return $param;
+            return $isSafe ? str_replace("''", "", $_REQUEST[$name]) : $_REQUEST[$name];
         }
     }
 
