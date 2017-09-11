@@ -185,7 +185,6 @@ Class Helper
      */
     public static function customError($errNo, $errStr, $errFile, $errLine)
     {
-        GLOBAL $GLOBALS;
         $errMsg = "[{$errNo}] {$errStr} {$errFile} {$errLine} ";
         self::log($errMsg, "sys_error");
         if ($GLOBALS["debug"]) {
@@ -211,6 +210,5 @@ Class Helper
             return $isSafe ? str_replace("''", "", $_REQUEST[$name]) : $_REQUEST[$name];
         }
     }
-
 
 }
