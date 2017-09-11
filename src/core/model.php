@@ -54,7 +54,12 @@ class Model
                 $limit = intval($limit_max) < $limit ? " LIMIT {$limit_max} " : " LIMIT {$limit} ";
             }
         }
-        return $this->query('SELECT ' . $fields . $sql . $sort . $limit, $conditions["_bindParams"]);
+        $_data = $this->query('SELECT ' . $fields . $sql . $sort . $limit, $conditions["_bindParams"]);
+        if ($_data == null) {
+            return [];
+        } else {
+            return $_data;
+        }
     }
 
     public function find($conditions = array(), $sort = null, $fields = '*')
