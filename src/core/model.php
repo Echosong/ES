@@ -6,6 +6,7 @@ class Model
     public $page;
     public $table_name;
     public $view_name;
+    private $model;
 
     public $_master_db;
     private $_slave_db;
@@ -26,6 +27,15 @@ class Model
         }
     }
 
+    public function __get($name)
+    {
+        if(empty($this->model[$name])){
+            return null;
+        }else{
+            return $this->model[$name];
+        }
+    }
+
     public function findAll($conditions = array(), $sort = null, $fields = '*', $limit = null)
     {
         $sort = !empty($sort) ? ' ORDER BY ' . $sort : '';
@@ -37,7 +47,7 @@ class Model
             $limit = $this->pager($limit[0], $limit[1], $limit[2], $total[0]['M_COUNTER']);
             $limit = empty($limit) ? '' : ' LIMIT ' . $limit['offset'] . ',' . $limit['limit'];
         } else {
-            $limit_max = empty($GLOBALS["limitMax"]) ? 1000 : $GLOBALS['limitMax'];
+            $limit_max = empty($GLOBALS["limitMax"]) ? $GLOBALS['limitMax'] : 1000;
             if (empty($limit)) {
                 $limit = " LIMIT {$limit_max}";
             } else {
@@ -50,7 +60,12 @@ class Model
     public function find($conditions = array(), $sort = null, $fields = '*')
     {
         $res = $this->findAll($conditions, $sort, $fields, 1);
-        return !empty($res) ? array_pop($res) : false;
+        if(!empty($res)){
+            $this->model = array_pop($res) ;
+            return $this->model;
+        }else{
+            return false;
+        }
     }
 
     public function update($conditions, $row)
@@ -58,21 +73,20 @@ class Model
         $values = [];
         foreach ($row as $k => $v) {
             $op = substr($k, 0, 1);
-            if ($op == "+" || $op == "-" || $op == "*" || $op == "/") {
-                $k = substr($k, 1);
-                $set_value[] = '`' . $k . "`= {$k}{$op}{$v}";
+            if($op == "+" || $op == "-" || $op == "*" || $op == "/"){
+                $k = substr($k,1);
+                $set_value[] = '`' . $k  . "`= {$k}{$op}{$v}";
                 continue;
             }
             if (strpos($k, '#') === 0) {
-                $set_value[] = '`' . substr($k, 1) . "`=" . $v;
+                $set_value[] = '`' . substr($k,1)  . "`=".$v ;
                 continue;
             }
             $values[":M_UPDATE_" . $k] = $v;
             $set_value[] = '`' . $k . "`=" . ":M_UPDATE_" . $k;
         }
         $conditions = $this->_where($conditions);
-        return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ',
-                $set_value) . $conditions["_where"],
+        return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ', $set_value) . $conditions["_where"],
             $conditions["_bindParams"] + $values);
     }
 
@@ -110,7 +124,7 @@ class Model
             $stack[] = '(' . implode($values, ', ') . ')';
         }
         $sql = "INSERT INTO " . $this->table_name . " (" . implode(', ', $keys) . ") VALUES " . implode(', ',
-                $stack);
+                $stack) ;
         $this->execute($sql, $map);
         return $this->_master_db->lastInsertId();
     }
@@ -216,6 +230,7 @@ class Model
 
     private function _db_instance($db_config, $db_config_key)
     {
+
         if (empty($GLOBALS['mysql_instances'][$db_config_key])) {
             try {
                 $GLOBALS['mysql_instances'][$db_config_key] = new PDO('mysql:dbname=' . $db_config['MYSQL_DB'] . ';host=' . $db_config['MYSQL_HOST'] . ';port=' . $db_config['MYSQL_PORT'],
