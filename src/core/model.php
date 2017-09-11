@@ -101,7 +101,7 @@ class Model
         $keys = [];
         $stack = [];
         $map = [];
-        if (!is_array($rows[0]) || empty($rows[0])) {
+        if (empty($rows[0])) {
             $rows = [$rows];
         }
         foreach ($rows[0] as $k => $v) {
