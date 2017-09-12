@@ -29,9 +29,9 @@ class Model
 
     public function __get($name)
     {
-        if(empty($this->model[$name])){
+        if (empty($this->model[$name])) {
             return null;
-        }else{
+        } else {
             return $this->model[$name];
         }
     }
@@ -65,10 +65,10 @@ class Model
     public function find($conditions = array(), $sort = null, $fields = '*')
     {
         $res = $this->findAll($conditions, $sort, $fields, 1);
-        if(!empty($res)){
-            $this->model = array_pop($res) ;
+        if (!empty($res)) {
+            $this->model = array_pop($res);
             return $this->model;
-        }else{
+        } else {
             return false;
         }
     }
@@ -78,20 +78,21 @@ class Model
         $values = [];
         foreach ($row as $k => $v) {
             $op = substr($k, 0, 1);
-            if($op == "+" || $op == "-" || $op == "*" || $op == "/"){
-                $k = substr($k,1);
-                $set_value[] = '`' . $k  . "`= {$k}{$op}{$v}";
+            if ($op == "+" || $op == "-" || $op == "*" || $op == "/") {
+                $k = substr($k, 1);
+                $set_value[] = '`' . $k . "`= {$k}{$op}{$v}";
                 continue;
             }
             if (strpos($k, '#') === 0) {
-                $set_value[] = '`' . substr($k,1)  . "`=".$v ;
+                $set_value[] = '`' . substr($k, 1) . "`=" . $v;
                 continue;
             }
             $values[":M_UPDATE_" . $k] = $v;
             $set_value[] = '`' . $k . "`=" . ":M_UPDATE_" . $k;
         }
         $conditions = $this->_where($conditions);
-        return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ', $set_value) . $conditions["_where"],
+        return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ',
+                $set_value) . $conditions["_where"],
             $conditions["_bindParams"] + $values);
     }
 
@@ -129,7 +130,7 @@ class Model
             $stack[] = '(' . implode($values, ', ') . ')';
         }
         $sql = "INSERT INTO " . $this->table_name . " (" . implode(', ', $keys) . ") VALUES " . implode(', ',
-                $stack) ;
+                $stack);
         $this->execute($sql, $map);
         return $this->_master_db->lastInsertId();
     }
@@ -254,15 +255,14 @@ class Model
             if (!is_array($value)) {
                 continue;
             }
-            $itemSql = "0";
+            $itemSql = [];
             unset($inArray[$key]);
             foreach ($value as $k => $item) {
                 $itemKey = "{$key}_{$k}";
-
-                $itemSql .= ", {$itemKey}";
+                array_push($itemSql, $itemKey);
                 $inArray[$itemKey] = $item;
             }
-            $sql = str_replace($key, $itemSql, $sql);
+            $sql = str_replace($key, implode(',', $itemSql) , $sql);
         }
         return [$sql, $inArray];
     }
@@ -298,6 +298,7 @@ class Model
                     $sql = join(" AND ", $join);
                 }
             }
+
             $result["_where"] = " WHERE " . $sql;
             $result["_bindParams"] = $conditions;
         } else {
