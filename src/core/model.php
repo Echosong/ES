@@ -1,12 +1,12 @@
 <?php
 
-
 class Model
 {
     public $page;
     public $table_name;
     public $view_name;
-    private $model;
+    public $fields;
+    private $_model;
 
     public $_master_db;
     private $_slave_db;
@@ -29,10 +29,10 @@ class Model
 
     public function __get($name)
     {
-        if (empty($this->model[$name])) {
+        if (empty($this->_model[$name])) {
             return null;
         } else {
-            return $this->model[$name];
+            return $this->_model[$name];
         }
     }
 
@@ -66,16 +66,29 @@ class Model
     {
         $res = $this->findAll($conditions, $sort, $fields, 1);
         if (!empty($res)) {
-            $this->model = array_pop($res);
-            return $this->model;
+            $this->_model = array_pop($res);
+            return $this->_model;
         } else {
             return false;
+        }
+    }
+
+    private function filterFields(array &$input)
+    {
+        if (empty($this->fields)) {
+            return;
+        }
+        foreach ($input as $k) {
+            if (!in_array($k, $this->fields)) {
+                unset($input[$k]);
+            }
         }
     }
 
     public function update($conditions, $row)
     {
         $values = [];
+        $this->filterFields($row);
         foreach ($row as $k => $v) {
             $op = substr($k, 0, 1);
             if ($op == "+" || $op == "-" || $op == "*" || $op == "/") {
@@ -109,6 +122,10 @@ class Model
         $map = [];
         if (empty($rows[0])) {
             $rows = [$rows];
+        }
+        foreach ($rows as $key => $row) {
+            $this->filterFields($row);
+            $rows[$key] = $row;
         }
         foreach ($rows[0] as $k => $v) {
             if (strpos($k, '#') === 0) {
@@ -236,7 +253,6 @@ class Model
 
     private function _db_instance($db_config, $db_config_key)
     {
-
         if (empty($GLOBALS['mysql_instances'][$db_config_key])) {
             try {
                 $GLOBALS['mysql_instances'][$db_config_key] = new PDO('mysql:dbname=' . $db_config['MYSQL_DB'] . ';host=' . $db_config['MYSQL_HOST'] . ';port=' . $db_config['MYSQL_PORT'],
@@ -262,11 +278,10 @@ class Model
                 array_push($itemSql, $itemKey);
                 $inArray[$itemKey] = $item;
             }
-            $sql = str_replace($key, implode(',', $itemSql) , $sql);
+            $sql = str_replace($key, implode(',', $itemSql), $sql);
         }
         return [$sql, $inArray];
     }
-
 
     private function _where($conditions)
     {
