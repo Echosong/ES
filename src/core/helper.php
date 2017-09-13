@@ -194,8 +194,7 @@ Class Helper
             die();
         }
     }
-
-
+    
     /**request获取信息设置默认值
      * @param $name
      * @param $default
