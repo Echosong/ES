@@ -211,4 +211,20 @@ Class Helper
         }
     }
 
+    /** 字段过滤
+     * @param array $input
+     * @param $fields
+     */
+    public static function filterFields(array &$input, $fields)
+    {
+        if (empty($fields)) {
+            return;
+        }
+        foreach ($input as $k) {
+            if (!in_array($k, $fields)) {
+                unset($input[$k]);
+            }
+        }
+    }
+
 }

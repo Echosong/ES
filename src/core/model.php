@@ -73,22 +73,10 @@ class Model
         }
     }
 
-    private function filterFields(array &$input)
-    {
-        if (empty($this->fields)) {
-            return;
-        }
-        foreach ($input as $k) {
-            if (!in_array($k, $this->fields)) {
-                unset($input[$k]);
-            }
-        }
-    }
-
     public function update($conditions, $row)
     {
         $values = [];
-        $this->filterFields($row);
+        Helper::filterFields($row, $this->fields);
         foreach ($row as $k => $v) {
             $op = substr($k, 0, 1);
             if ($op == "+" || $op == "-" || $op == "*" || $op == "/") {
@@ -124,7 +112,7 @@ class Model
             $rows = [$rows];
         }
         foreach ($rows as $key => $row) {
-            $this->filterFields($row);
+            Helper::filterFields($row, $this->fields);
             $rows[$key] = $row;
         }
         foreach ($rows[0] as $k => $v) {
