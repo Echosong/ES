@@ -106,7 +106,6 @@ Class Helper
         $controller_obj->$action_name();
     }
 
-
     /**
      * 所有的输出格式统一
      * @param $message 输出对象
@@ -194,7 +193,7 @@ Class Helper
             die();
         }
     }
-    
+
     /**request获取信息设置默认值
      * @param $name
      * @param $default
@@ -225,5 +224,5 @@ Class Helper
             }
         }
     }
-
+    
 }
