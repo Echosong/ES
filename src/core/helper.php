@@ -218,7 +218,7 @@ Class Helper
         if (empty($fields)) {
             return;
         }
-        foreach ($input as $k) {
+        foreach ($input as $k=>$v) {
             if (!in_array($k, $fields)) {
                 unset($input[$k]);
             }
