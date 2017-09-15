@@ -47,7 +47,7 @@ class Model
             $limit = $this->pager($limit[0], $limit[1], $limit[2], $total[0]['M_COUNTER']);
             $limit = empty($limit) ? '' : ' LIMIT ' . $limit['offset'] . ',' . $limit['limit'];
         } else {
-            $limit_max = empty($GLOBALS["limitMax"]) ? $GLOBALS['limitMax'] : 1000;
+            $limit_max = empty($GLOBALS["limitMax"]) ? 1000: $GLOBALS['limitMax'];
             if (empty($limit)) {
                 $limit = " LIMIT {$limit_max}";
             } else {
