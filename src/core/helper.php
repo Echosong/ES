@@ -215,11 +215,16 @@ Class Helper
      */
     public static function filterFields(array &$input, $fields)
     {
+        $operator = ['*','+','-','/','#'];
         if (empty($fields)) {
             return;
         }
-        foreach ($input as $k=>$v) {
-            if (!in_array($k, $fields)) {
+        foreach ($input as $k => $v) {
+            $key = $k;
+            if (in_array(substr($k, 0, 1), $operator)) {
+                $key = substr($k, 1);
+            }
+            if (!in_array($key, $fields)) {
                 unset($input[$k]);
             }
         }
