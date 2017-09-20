@@ -8,7 +8,7 @@ class Model
     public $fields;
     private $_model;
 
-    public $_master_db;
+    private $_master_db;
     private $_slave_db;
     private $sql = array();
 
