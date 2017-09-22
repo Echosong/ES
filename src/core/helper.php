@@ -89,7 +89,7 @@ Class Helper
         }
         $controller_name = $__controller . 'Controller';
         //处理restful
-        $httpMethod = strtolower(empty($_SERVER['REQUEST_METHOD'])? 'get':$_SERVER['REQUEST_METHOD']);
+        $httpMethod = strtolower(empty($_SERVER['REQUEST_METHOD']) ? 'get' : $_SERVER['REQUEST_METHOD']);
         $action_name = $httpMethod . ucfirst($__action);
 
         if (!class_exists(ucfirst($controller_name), true)) {
@@ -172,8 +172,15 @@ Class Helper
      */
     public static function log($errMsg, $level = 'info')
     {
-        $logPath = APP_DIR . DS . $GLOBALS['logPath'] . DS . date('Ymd') . "_" . $level . ".log";
+        $logPath = APP_DIR . DS . $GLOBALS['logPath'] . DS . $level . "_" . date('Ymd') . ".log";
         error_log(date('Ymd H:i:s') . "  " . $errMsg . "\r\n", 3, $logPath);
+        if (strtolower(trim($level)) === 'error') {
+            if ($GLOBALS['debug']) {
+                Helper::responseJson($errMsg, -1);
+            } else {
+                Helper::responseJson('异常查看系统日志', -1);
+            }
+        }
     }
 
     /** 自定义错误
@@ -185,7 +192,7 @@ Class Helper
     public static function customError($errNo, $errStr, $errFile, $errLine)
     {
         $errMsg = "[{$errNo}] {$errStr} {$errFile} {$errLine} ";
-        self::log($errMsg, "sys_error");
+        self::log($errMsg, $errNo);
         if ($GLOBALS["debug"]) {
             echo $errMsg;
         }
@@ -215,7 +222,7 @@ Class Helper
      */
     public static function filterFields(array &$input, $fields)
     {
-        $operator = ['*','+','-','/','#'];
+        $operator = ['*', '+', '-', '/', '#'];
         if (empty($fields)) {
             return;
         }
@@ -229,5 +236,5 @@ Class Helper
             }
         }
     }
-    
+
 }
