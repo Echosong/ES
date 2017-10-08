@@ -81,11 +81,11 @@ Class Helper
             die("Err: Module name '$__module' is not correct!");
         }
         if (!is_dir(APP_PATH . '../controller' . DS . $__module)) {
-            die("Err: Module '$__module' is not exists!");
+            self::responseJson("Err: Module '$__module' is not exists!",404);
         }
 
         if (!self::is_available_classname($__controller)) {
-            die("Err: Controller name '$__controller' is not correct!");
+            self::responseJson("Err: Controller name '$__controller' is not correct!", 404);
         }
         $controller_name = $__controller . 'Controller';
         //处理restful
@@ -93,14 +93,14 @@ Class Helper
         $action_name = $httpMethod . ucfirst($__action);
 
         if (!class_exists(ucfirst($controller_name), true)) {
-            die("Err: Controller '$controller_name' is not exists!");
+            self::responseJson("Err: Controller '$controller_name' is not exists!",404);
         }
         $controller_obj = new $controller_name();
 
         if (!method_exists($controller_obj, $action_name)) {
             $action_name = 'action' . $__action;
             if (!method_exists($controller_obj, $action_name)) {
-                die("Err: Method '$action_name' of '$controller_name' is not exists!");
+                self::responseJson("Err: Method '$action_name' of '$controller_name' is not exists!",404);
             }
         };
         $controller_obj->$action_name();
@@ -124,7 +124,6 @@ Class Helper
      */
     public static function redirect($msg, $url = '', $code = 0)
     {
-
         if (isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest") {
             if (is_array($msg)) {
                 exit(json_encode($msg));
@@ -173,12 +172,12 @@ Class Helper
     public static function log($errMsg, $level = 'info')
     {
         $logPath = APP_DIR . DS . $GLOBALS['logPath'] . DS . $level . "_" . date('Ymd') . ".log";
-        error_log(date('Ymd H:i:s') . "  " . $errMsg .PHP_EOL, 3, $logPath);
+        error_log(date('Ymd H:i:s') . "  " . $errMsg . PHP_EOL, 3, $logPath);
         if (strtolower(trim($level)) === 'error') {
             if ($GLOBALS['debug']) {
-                Helper::responseJson($errMsg, -1);
+                Helper::responseJson($errMsg, 500);
             } else {
-                Helper::responseJson('异常查看系统日志', -1);
+                Helper::responseJson('异常查看系统日志', 500);
             }
         }
     }
