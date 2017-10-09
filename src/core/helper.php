@@ -113,6 +113,7 @@ Class Helper
      */
     public static function responseJson($message, $code = 0)
     {
+        header('x-powered-by:ES.1.0');
         header('Content-type: application/json');
         exit(json_encode(['code' => $code, 'message' => $message]));
     }
