@@ -114,7 +114,7 @@ class Model
             $rows = [$rows];
         }
         foreach ($rows as $key => $row) {
-             Helper::filterFields($row, $this->fields);
+            Helper::filterFields($row, $this->fields);
             $rows[$key] = $row;
         }
         foreach ($rows[0] as $k => $v) {
@@ -244,20 +244,18 @@ class Model
 
     private function _db_instance($db_config, $db_config_key)
     {
-        $pdoContext = $GLOBALS['mysql_instances'][$db_config_key];
-        if(!empty($pdoContext)) {
+        if (!empty($GLOBALS['mysql_instances'][$db_config_key])) {
             try {
-                $pdoContext->getAttribute(PDO::ATTR_SERVER_INFO);
+                $GLOBALS['mysql_instances'][$db_config_key]->getAttribute(PDO::ATTR_SERVER_INFO);
             } catch (PDOException $e) {
                 $pdoConn = null;
             }
         }
-        if (empty($pdoContext)) {
+        if (empty($GLOBALS['mysql_instances'][$db_config_key])) {
             try {
-                $pdoContext = new PDO('mysql:dbname=' . $db_config['MYSQL_DB'] . ';host=' . $db_config['MYSQL_HOST'] . ';port=' . $db_config['MYSQL_PORT'],
+                $GLOBALS['mysql_instances'][$db_config_key] = new PDO('mysql:dbname=' . $db_config['MYSQL_DB'] . ';host=' . $db_config['MYSQL_HOST'] . ';port=' . $db_config['MYSQL_PORT'],
                     $db_config['MYSQL_USER'], $db_config['MYSQL_PASS'],
                     array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'' . $db_config['MYSQL_CHARSET'] . '\''));
-                $GLOBALS['mysql_instances'][$db_config_key]  = $pdoContext;
             } catch (PDOException $e) {
                 Helper::log('Database Err: ' . $e->getMessage(), "error");
             }
