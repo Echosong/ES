@@ -6,7 +6,7 @@
  * Time: 12:21
  */
 
-class MainController extends Controller
+class MainController extends BaseController
 {
     /**
      * php 脚本运行 php index.php shell main index "自定义参数"
@@ -14,7 +14,7 @@ class MainController extends Controller
     public function actionIndex()
     {
         while (true){
-            echo "todo 业务参数：".Helper::request("p", "");
+            //todo
             sleep(1);
         }
     }

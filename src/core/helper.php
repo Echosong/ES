@@ -2,6 +2,9 @@
 
 Class Helper
 {
+    //致命错误级别
+    const FATAL_ERROR = 'fatal_error';
+
     /**
      * 检查参数合法性
      * @param $name
@@ -107,15 +110,19 @@ Class Helper
     }
 
     /**
-     * 所有的输出格式统一
+     * 所有的输出格式统一 支持shell 输出
      * @param $message 输出对象
      * @param $code 输出错误码
      */
     public static function responseJson($message, $code = 0)
     {
-        header('x-powered-by:ES.1.0');
-        header('Content-type: application/json');
-        exit(json_encode(['code' => $code, 'message' => $message]));
+        if(PHP_SAPI === 'cli'){
+            printf("[%s] %s", date('Y/m/d H:i:s') ,$message.PHP_EOL);
+        }else {
+            header('x-powered-by:ES.1.0');
+            header('Content-type: application/json');
+            exit(json_encode(['code' => $code, 'message' => $message]));
+        }
     }
 
     /**
@@ -174,7 +181,7 @@ Class Helper
     {
         $logPath = APP_DIR . DS . $GLOBALS['logPath'] . DS . $level . "_" . date('Ymd') . ".log";
         error_log(date('Ymd H:i:s') . "  " . $errMsg . PHP_EOL, 3, $logPath);
-        if (strtolower(trim($level)) === 'error') {
+        if (strtolower(trim($level)) === 'fatal_error') {
             if ($GLOBALS['debug']) {
                 Helper::responseJson($errMsg, 500);
             } else {
@@ -192,12 +199,12 @@ Class Helper
     public static function customError($errNo, $errStr, $errFile, $errLine)
     {
         $errMsg = "[{$errNo}] {$errStr} {$errFile} {$errLine} ";
+        if ($errNo == E_ERROR) {
+            $errNo = 'fatal_error';
+        }
         self::log($errMsg, $errNo);
         if ($GLOBALS["debug"]) {
             echo $errMsg;
-        }
-        if ($errNo == E_ERROR) {
-            die();
         }
     }
 

@@ -11,13 +11,18 @@ class MainController extends BaseController
     private function uplod()
     {
 
-
     }
 
     public function getIndex()
     {
 
         $this->display('default.php');
+    }
+
+    public function postIndex()
+    {
+        //sleep(6);
+       var_dump($_REQUEST);
     }
 
     public function getTest()

@@ -208,9 +208,11 @@ class Model
             if (!($this->_master_db)) {
                 $this->setDB('default');
             }
+            if (empty($this->_master_db)) {
+                return ;
+            }
             $sth = $this->_master_db->prepare($sql);
         }
-
         if (is_array($params) && !empty($params)) {
             foreach ($params as $k => &$v) {
                 $sth->bindParam($k, $v);
@@ -220,7 +222,7 @@ class Model
             return $is_query ? $sth->fetchAll(PDO::FETCH_ASSOC) : $sth->rowCount();
         }
         $err = $sth->errorInfo();
-        Helper::log('Database SQL: "' . $sql . '", ErrorInfo: ' . $err[2], "error");
+        Helper::log('Database SQL: "' . $sql . '", ErrorInfo: ' . $err[2], Helper::FATAL_ERROR);
     }
 
     public function setDB($db_config_key = 'default', $is_readonly = false)
@@ -231,7 +233,7 @@ class Model
             if (!empty($GLOBALS['mysql'][$db_config_key])) {
                 $db_config = $GLOBALS['mysql'][$db_config_key];
             } else {
-                Helper::log("Database Err: Db config '$db_config_key' is not exists!", "error");
+                Helper::log("Database Err: Db config '$db_config_key' is not exists!", Helper::FATAL_ERROR);
             }
         }
         if ($is_readonly) {
@@ -239,15 +241,12 @@ class Model
         } else {
             $this->_master_db = $this->_db_instance($db_config, $db_config_key);
         }
-
     }
 
     private function _db_instance($db_config, $db_config_key)
     {
-        if (!empty($GLOBALS['mysql_instances'][$db_config_key])) {
-            try {
-                $GLOBALS['mysql_instances'][$db_config_key]->getAttribute(PDO::ATTR_SERVER_INFO);
-            } catch (PDOException $e) {
+        if(!empty($GLOBALS['mysql_instances'][$db_config_key])) {
+            if (!$GLOBALS['mysql_instances'][$db_config_key]->getAttribute(PDO::ATTR_SERVER_INFO)) {
                 $GLOBALS['mysql_instances'][$db_config_key] = null;
             }
         }
@@ -257,7 +256,7 @@ class Model
                     $db_config['MYSQL_USER'], $db_config['MYSQL_PASS'],
                     array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'' . $db_config['MYSQL_CHARSET'] . '\''));
             } catch (PDOException $e) {
-                Helper::log('Database Err: ' . $e->getMessage(), "error");
+                Helper::log('Database Err: ' . $e->getMessage(), Helper::FATAL_ERROR);
             }
         }
         return $GLOBALS['mysql_instances'][$db_config_key];
