@@ -47,7 +47,7 @@ class Model
             $limit = $this->pager($limit[0], $limit[1], $limit[2], $total[0]['M_COUNTER']);
             $limit = empty($limit) ? '' : ' LIMIT ' . $limit['offset'] . ',' . $limit['limit'];
         } else {
-            $limit_max = empty($GLOBALS["limitMax"]) ? 1000: $GLOBALS['limitMax'];
+            $limit_max = empty($GLOBALS["limitMax"]) ? $GLOBALS['limitMax'] : 1000;
             if (empty($limit)) {
                 $limit = " LIMIT {$limit_max}";
             } else {
@@ -84,7 +84,9 @@ class Model
                 $set_value[] = '`' . $k . "`= {$k}{$op}{$v}";
                 continue;
             }
+
             if (strpos($k, '#') === 0) {
+
                 $set_value[] = '`' . substr($k, 1) . "`=" . $v;
                 continue;
             }
@@ -112,7 +114,7 @@ class Model
             $rows = [$rows];
         }
         foreach ($rows as $key => $row) {
-            Helper::filterFields($row, $this->fields);
+             Helper::filterFields($row, $this->fields);
             $rows[$key] = $row;
         }
         foreach ($rows[0] as $k => $v) {
@@ -237,15 +239,25 @@ class Model
         } else {
             $this->_master_db = $this->_db_instance($db_config, $db_config_key);
         }
+
     }
 
     private function _db_instance($db_config, $db_config_key)
     {
-        if (empty($GLOBALS['mysql_instances'][$db_config_key])) {
+        $pdoContext = $GLOBALS['mysql_instances'][$db_config_key];
+        if(!empty($pdoContext)) {
             try {
-                $GLOBALS['mysql_instances'][$db_config_key] = new PDO('mysql:dbname=' . $db_config['MYSQL_DB'] . ';host=' . $db_config['MYSQL_HOST'] . ';port=' . $db_config['MYSQL_PORT'],
+                $pdoContext->getAttribute(PDO::ATTR_SERVER_INFO);
+            } catch (PDOException $e) {
+                $pdoConn = null;
+            }
+        }
+        if (empty($pdoContext)) {
+            try {
+                $pdoContext = new PDO('mysql:dbname=' . $db_config['MYSQL_DB'] . ';host=' . $db_config['MYSQL_HOST'] . ';port=' . $db_config['MYSQL_PORT'],
                     $db_config['MYSQL_USER'], $db_config['MYSQL_PASS'],
                     array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'' . $db_config['MYSQL_CHARSET'] . '\''));
+                $GLOBALS['mysql_instances'][$db_config_key]  = $pdoContext;
             } catch (PDOException $e) {
                 Helper::log('Database Err: ' . $e->getMessage(), "error");
             }
