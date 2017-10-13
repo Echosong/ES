@@ -248,7 +248,7 @@ class Model
             try {
                 $GLOBALS['mysql_instances'][$db_config_key]->getAttribute(PDO::ATTR_SERVER_INFO);
             } catch (PDOException $e) {
-                $pdoConn = null;
+                $GLOBALS['mysql_instances'][$db_config_key] = null;
             }
         }
         if (empty($GLOBALS['mysql_instances'][$db_config_key])) {
