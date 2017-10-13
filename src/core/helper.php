@@ -84,7 +84,7 @@ Class Helper
             die("Err: Module name '$__module' is not correct!");
         }
         if (!is_dir(APP_PATH . '../controller' . DS . $__module)) {
-            self::responseJson("Err: Module '$__module' is not exists!",404);
+            self::responseJson("Err: Module '$__module' is not exists!", 404);
         }
 
         if (!self::is_available_classname($__controller)) {
@@ -96,14 +96,14 @@ Class Helper
         $action_name = $httpMethod . ucfirst($__action);
 
         if (!class_exists(ucfirst($controller_name), true)) {
-            self::responseJson("Err: Controller '$controller_name' is not exists!",404);
+            self::responseJson("Err: Controller '$controller_name' is not exists!", 404);
         }
         $controller_obj = new $controller_name();
 
         if (!method_exists($controller_obj, $action_name)) {
             $action_name = 'action' . $__action;
             if (!method_exists($controller_obj, $action_name)) {
-                self::responseJson("Err: Method '$action_name' of '$controller_name' is not exists!",404);
+                self::responseJson("Err: Method '$action_name' of '$controller_name' is not exists!", 404);
             }
         };
         $controller_obj->$action_name();
@@ -116,9 +116,9 @@ Class Helper
      */
     public static function responseJson($message, $code = 0)
     {
-        if(PHP_SAPI === 'cli'){
-            printf("[%s] %s", date('Y/m/d H:i:s') ,$message.PHP_EOL);
-        }else {
+        if (PHP_SAPI === 'cli') {
+            printf("[%s] %s", date('Y/m/d H:i:s'), $message . PHP_EOL);
+        } else {
             header('x-powered-by:ES.1.0');
             header('Content-type: application/json');
             exit(json_encode(['code' => $code, 'message' => $message]));

@@ -15,6 +15,7 @@ class MainController extends BaseController
     {
         while (true){
             //todo
+            echo "fdsfdsfds";
             sleep(1);
         }
     }

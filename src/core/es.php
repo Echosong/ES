@@ -17,7 +17,10 @@ require_once(APP_PATH . "view.php");
 
 set_error_handler( ["Helper", "customError"]);
 register_shutdown_function(function (){
-    Helper::log(json_encode(error_get_last()),  Helper::FATAL_ERROR);
+    $fatalMsg = error_get_last();
+    if($fatalMsg){
+        Helper::log(json_encode($fatalMsg),  Helper::FATAL_ERROR);
+    }
 });
 
 //设置路由规范
