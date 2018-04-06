@@ -51,7 +51,7 @@ ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     
-    RewriteRule ^(.*)$ index.php?$1 [QSA,L]
+    RewriteRule ^(.*)$ index.php/$1 [QSA,L]
  
 .htaccess(Nginx):
     
