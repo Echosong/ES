@@ -30,20 +30,25 @@ Class Helper
         $c = empty($c) ? $rewrite['c'] : $c;
         $a = empty($a) ? $rewrite['a'] : $a;
         $params = empty($param) ? '' : http_build_query($param);
+        if($_SERVER['SERVER_PORT'] ==443){
+            $protocol = 'https';
+        }else{
+            $protocol = 'http';
+        }
         if ($rewrite['isRewrite']) {
             if (!empty($params)) {
                 $params = "?$params";
             }
             if ($__module == $rewrite['m'][0]) {
-                $url = "http://" . $_SERVER["HTTP_HOST"] . '/' . $c . '/' . $a . $params;
+                $url = "$protocol://" . $_SERVER["HTTP_HOST"] . '/' . $c . '/' . $a . $params;
             } else {
-                $url = "http://" . $_SERVER["HTTP_HOST"] . '/' . $__module . '/' . $c . '/' . $a . $params;
+                $url = "$protocol://" . $_SERVER["HTTP_HOST"] . '/' . $__module . '/' . $c . '/' . $a . $params;
             }
         } else {
             if ($__module != $rewrite['m'][0]) {
-                $url = "http://" . $_SERVER["SCRIPT_NAME"] . "?m=$__module&c=$c&a=$a$params";
+                $url = "$protocol://" . $_SERVER["SCRIPT_NAME"] . "?m=$__module&c=$c&a=$a$params";
             } else {
-                $url = "http://" . $_SERVER["SCRIPT_NAME"] . "?c=$c&a=$a$params";
+                $url = "$protocol://" . $_SERVER["SCRIPT_NAME"] . "?c=$c&a=$a$params";
             }
         }
         return $url;
