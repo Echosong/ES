@@ -13,6 +13,16 @@ class MainController extends BaseController
 
     }
 
+    /**
+     * 测试分页
+     */
+    public function getPage(){
+        $userDb = new Model('category');
+        $page = Helper::request('page', 0);
+        $users = $userDb->findAll('', 'id desc',  'id,name', [$page, 20]);
+        Helper::responseJson([$users, $userDb->page ]);
+    }
+
     public function getIndex()
     {
 

@@ -190,6 +190,20 @@ class Model
             } else {
                 $this->page['all_pages'] = range($page - $scope / 2, min($page + $scope / 2 - 1, $total_page));
             }
+        }else{
+            $this->page = array(
+                'total_count' => $total,
+                'page_size' => $pageSize,
+                'total_page' => 1,
+                'first_page' => 1,
+                'prev_page' => 1,
+                'next_page' => 1,
+                'last_page' => 1,
+                'current_page' => $page,
+                'all_pages' => array(),
+                'offset' => ($page - 1) * $pageSize,
+                'limit' => $pageSize,
+            );
         }
         return $this->page;
     }
