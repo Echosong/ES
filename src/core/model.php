@@ -257,10 +257,21 @@ class Model
         }
     }
 
+    private function pdo_ping($dbconn){
+        try{
+            $dbconn->getAttribute(PDO::ATTR_SERVER_INFO);
+        } catch (PDOException $e) {
+            if(strpos($e->getMessage(), 'MySQL server has gone away')!==false){
+                return false;
+            }
+        }
+        return true;
+    }
+
     private function _db_instance($db_config, $db_config_key)
     {
         if(!empty($GLOBALS['mysql_instances'][$db_config_key])) {
-            if (!$GLOBALS['mysql_instances'][$db_config_key]->getAttribute(PDO::ATTR_SERVER_INFO)) {
+            if($this->pdo_ping($GLOBALS['mysql_instances'][$db_config_key])){
                 $GLOBALS['mysql_instances'][$db_config_key] = null;
             }
         }
