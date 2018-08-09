@@ -5,6 +5,9 @@ Class Helper
     //致命错误级别
     const FATAL_ERROR = 'fatal_error';
 
+    //用作传匿名函数处理错误监听器
+    public static $logBservers;
+
     /**
      * 检查参数合法性
      * @param $name
@@ -185,10 +188,16 @@ Class Helper
     public static function log($errMsg, $level = 'info')
     {
         $logPath = APP_DIR . DS . $GLOBALS['logPath'] . DS . $level . "_" . date('Ymd') . ".log";
-        error_log(date('Ymd H:i:s') . "  " . $errMsg . PHP_EOL, 3, $logPath);
-        if (strtolower(trim($level)) === 'fatal_error') {
+        try{
+            error_log(date('Ymd H:i:s') . "  " . $errMsg . PHP_EOL, 3, $logPath);
+        }catch (Exception $e){}
+
+        if (strtolower(trim($level)) === self::FATAL_ERROR) {
+            if(self::$logBservers[E_ERROR]){
+                call_user_func(self::$logBservers[E_ERROR],$errMsg);
+            }
             if ($GLOBALS['debug']) {
-                Helper::responseJson($errMsg, 500);
+                Helper::responseJson($errMsg, 502);
             } else {
                 Helper::responseJson('异常查看系统日志', 500);
             }
@@ -205,6 +214,7 @@ Class Helper
     {
         $errMsg = "[{$errNo}] {$errStr} {$errFile} {$errLine} ";
         if ($errNo == E_ERROR) {
+
             $errNo = 'fatal_error';
         }
         self::log($errMsg, $errNo);
