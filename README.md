@@ -331,7 +331,7 @@ $user->find(['username'=>$username, 'sex>'=>$sex])
 
 方式三： 参数化写法（类似 上面的query 函数方式）
 
-$user->find([ "username = :username and sex > :sex and id in (:ids)" , [':username'=>$username, 'sex'=>$sex, 'ids'=>[1,3,4,..] ] ])
+$user->find([ "username = :username and sex > :sex and id in (:ids)" , [':username'=>$username, ':sex'=>$sex, 'ids'=>[1,3,4,..] ] ])
 
 方式一 可能为存在sql注入问题 特别注意， 方式二简单明了，但是连接 or 条件 为能实现 方式三稍微复杂 建议使用
 ```
