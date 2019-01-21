@@ -38,7 +38,7 @@ ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 
 ## 安装
 
 ### 下载
-    git clone https://github.com/Echosong（web建立到当前文件夹）
+    git clone https://github.com/Echosong/es（web建立到当前文件夹）
 
 ### 各种web 服务器配置重定向
 
@@ -71,7 +71,7 @@ ES 是一款 极简、灵活、 高性能、扩建性强、上手快php 框架; 
 
 #### 配置路由规则
 
-ES 没有像些重型框架单独有 Route 配置， ES的想法很简单，主要分为 模块[m]，控制器[c]，动作[c] 来路由
+ES 没有像些重型框架单独有 Route 配置， ES的想法很简单，主要分为 模块[m]，控制器[c]，动作[a] 来路由
 
 ```php
  'rewrite' => array(
