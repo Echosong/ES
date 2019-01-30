@@ -233,9 +233,13 @@ Class Helper
     {
         if (!isset($_REQUEST[$name])) {
             return $default;
-        } else {
-            return $isSafe ? str_replace("''", "", $_REQUEST[$name]) : $_REQUEST[$name];
         }
+        if(is_numeric($default)){
+            if(!is_numeric($_REQUEST[$name])){
+                return $default;
+            }
+        }
+        return $isSafe ? str_replace("''", "", $_REQUEST[$name]) : $_REQUEST[$name];
     }
 
     /** 字段过滤
