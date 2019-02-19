@@ -219,7 +219,7 @@ public function __get ($name)
 //此函数设置的值可以在视图模板里直接使用
 public function __set ($name, $value)
 
-//处理 action对应的模板 $tpl_name 模板地址 会自定到view 和controller 同名的文件夹 默认 $m/$c/$a.php
+//处理 action对应的模板 $tpl_name 模板地址 会自定到view 和controller 同名的文件夹 默认 $c/$a.php
 public function display ($tpl_name = "", $return = false)
 
 ```
