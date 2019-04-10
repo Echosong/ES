@@ -192,7 +192,6 @@ Class Helper
         }
         //shell 的操作权限跟web不一样，所以需要区分
         $level = (isset($_REQUEST['m'])?$_REQUEST['m']:'').$level;
-       
         $logPath = APP_DIR . DS . $GLOBALS['logPath'] . DS . $level . "_" . date('Ymd') . ".log";
         try{
             error_log(date('Ymd H:i:s') . "  " . $errMsg . PHP_EOL, 3, $logPath);
