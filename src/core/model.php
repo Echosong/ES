@@ -236,6 +236,9 @@ class Model
             return $is_query ? $sth->fetchAll(PDO::FETCH_ASSOC) : $sth->rowCount();
         }
         $err = $sth->errorInfo();
+        if ($err[1] == 2006 || $err[1]  == 2013) {
+            $GLOBALS['mysql_instances']['default'] = null;
+        }
         Helper::log('Database SQL: "' . $sql . '", ErrorInfo: ' . $err[2], Helper::FATAL_ERROR);
     }
 
