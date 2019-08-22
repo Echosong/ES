@@ -90,13 +90,14 @@ class Model
                 $set_value[] = '`' . substr($k, 1) . "`=" . $v;
                 continue;
             }
-            $values[":M_UPDATE_" . $k] = $v;
+            $values[":M_UPDATE_" . $k] = str_ireplace('</script>','', $v);
             $set_value[] = '`' . $k . "`=" . ":M_UPDATE_" . $k;
         }
+      //  var_dump($values);
         $conditions = $this->_where($conditions);
         return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ',
-                $set_value) . $conditions["_where"],
-            $conditions["_bindParams"] + $values);
+                                                                                $set_value) . $conditions["_where"],
+                              $conditions["_bindParams"] + $values);
     }
 
     public function delete($conditions)
@@ -132,12 +133,12 @@ class Model
                 }
                 $map_key = ":{$k}_{$key}";
                 $values[] = $map_key;
-                $map[$map_key] = $v;
+                $map[$map_key] = str_ireplace('</script>','', $v);
             }
             $stack[] = '(' . implode($values, ', ') . ')';
         }
         $sql = "INSERT INTO " . $this->table_name . " (" . implode(', ', $keys) . ") VALUES " . implode(', ',
-                $stack);
+                                                                                                        $stack);
         $this->execute($sql, $map);
         return $this->_master_db->lastInsertId();
     }
@@ -146,7 +147,7 @@ class Model
     {
         $conditions = $this->_where($conditions);
         $count = $this->query("SELECT COUNT(*) AS M_COUNTER FROM " . $this->table_name . $conditions["_where"],
-            $conditions["_bindParams"]);
+                              $conditions["_bindParams"]);
         return isset($count[0]['M_COUNTER']) && $count[0]['M_COUNTER'] ? $count[0]['M_COUNTER'] : 0;
     }
 
@@ -154,7 +155,7 @@ class Model
     {
         $conditions = $this->_where($conditions);
         $sum = $this->query("SELECT sum({$field}) AS M_COUNTER FROM " . $this->table_name . $conditions["_where"],
-            $conditions["_bindParams"]);
+                            $conditions["_bindParams"]);
         return isset($sum[0]['M_COUNTER']) && $sum[0]['M_COUNTER'] ? $sum[0]['M_COUNTER'] : 0;
     }
 
@@ -281,8 +282,8 @@ class Model
         if (empty($GLOBALS['mysql_instances'][$db_config_key])) {
             try {
                 $GLOBALS['mysql_instances'][$db_config_key] = new PDO('mysql:dbname=' . $db_config['MYSQL_DB'] . ';host=' . $db_config['MYSQL_HOST'] . ';port=' . $db_config['MYSQL_PORT'],
-                    $db_config['MYSQL_USER'], $db_config['MYSQL_PASS'],
-                    array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'' . $db_config['MYSQL_CHARSET'] . '\''));
+                                                                      $db_config['MYSQL_USER'], $db_config['MYSQL_PASS'],
+                                                                      array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'' . $db_config['MYSQL_CHARSET'] . '\''));
             } catch (PDOException $e) {
                 Helper::log('Database Err: ' . $e->getMessage(), Helper::FATAL_ERROR);
             }
