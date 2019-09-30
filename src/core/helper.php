@@ -5,9 +5,6 @@ Class Helper
     //致命错误级别
     const FATAL_ERROR = 'fatal_error';
 
-    //用作传匿名函数处理错误监听器
-    public static $logBservers;
-
     /**
      * 检查参数合法性
      * @param $name
@@ -191,19 +188,13 @@ Class Helper
             $errMsg = json_encode($errMsg);
         }
         //shell 的操作权限跟web不一样，所以需要区分
+        global $__module;
         $logPath = APP_DIR . DS . $GLOBALS['logPath'] . DS . $level .
-            "_".(isset($_REQUEST['m'])?$_REQUEST['m']:''). date('Ymd') . ".log";
-        $logPath = APP_DIR . DS . $GLOBALS['logPath'] . DS . $level . "_" . date('Ymd') . ".log";
-        try{
-            error_log(date('Ymd H:i:s') . "  " . $errMsg . PHP_EOL, 3, $logPath);
-        }catch (Exception $e){}
-
-        if (strtolower(trim($level)) === self::FATAL_ERROR) {
-            if(self::$logBservers[E_ERROR]){
-                call_user_func(self::$logBservers[E_ERROR],$errMsg);
-            }
+            "_".$__module. date('Ymd') . ".log";
+        error_log(date('Ymd H:i:s') . "  " . $errMsg . PHP_EOL, 3, $logPath);
+        if (strtolower(trim($level)) === 'fatal_error') {
             if ($GLOBALS['debug']) {
-                Helper::responseJson($errMsg, 502);
+                Helper::responseJson($errMsg, 500);
             } else {
                 Helper::responseJson('异常查看系统日志', 500);
             }
@@ -220,7 +211,6 @@ Class Helper
     {
         $errMsg = "[{$errNo}] {$errStr} {$errFile} {$errLine} ";
         if ($errNo == E_ERROR) {
-
             $errNo = 'fatal_error';
         }
         self::log($errMsg, $errNo);
@@ -239,13 +229,9 @@ Class Helper
     {
         if (!isset($_REQUEST[$name])) {
             return $default;
+        } else {
+            return $isSafe ? str_replace("''", "", $_REQUEST[$name]) : $_REQUEST[$name];
         }
-        if(is_numeric($default)){
-            if(!is_numeric($_REQUEST[$name])){
-                return $default;
-            }
-        }
-        return $isSafe ? str_replace("''", "", $_REQUEST[$name]) : $_REQUEST[$name];
     }
 
     /** 字段过滤
