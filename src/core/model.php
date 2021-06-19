@@ -48,6 +48,15 @@ class Model
             return $this->_model[$name];
         }
     }
+    
+    public static function startTrans(){
+        $db = $GLOBALS['mysql_instances']['default'];
+        if($db == null){
+            $db = (new Model())->setDB();
+        }
+        $db->beginTransaction();
+        return $db;
+    }
 
     public function findAll($conditions = array(), $sort = null, $fields = '*', $limit = null)
     {
@@ -269,8 +278,10 @@ class Model
         }
         if ($is_readonly) {
             $this->_slave_db = $this->_db_instance($db_config, $db_config_key);
+            return $this->_slave_db;
         } else {
             $this->_master_db = $this->_db_instance($db_config, $db_config_key);
+            return  $this->_master_db;
         }
     }
 
