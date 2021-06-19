@@ -275,7 +275,7 @@ class Model
     private function _db_instance($db_config, $db_config_key)
     {
         if(!empty($GLOBALS['mysql_instances'][$db_config_key])) {
-            if($this->pdo_ping($GLOBALS['mysql_instances'][$db_config_key])){
+            if(!$this->pdo_ping($GLOBALS['mysql_instances'][$db_config_key])){
                 $GLOBALS['mysql_instances'][$db_config_key] = null;
             }
         }
