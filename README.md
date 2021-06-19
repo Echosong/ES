@@ -394,6 +394,17 @@ $userDb->delete(['id'=>1]);
 
 ```
 
+
+#### 事务
+```php
+ $Db = Model::startTrans();
+ $userDb = new User();
+ ......
+ $Db->commit()
+
+```
+
+
 ### 视图
 es 采用php原始 脚本作为模板标记语言， 主要好处有
 - 不需要额外学习一门新的标识语言
