@@ -26,6 +26,19 @@ class Model
             }
         }
     }
+    
+    /**
+     * 事务处理，事务之前应该
+     */
+    public static function startTrans(){
+        $db = $GLOBALS['mysql_instances']['default'];
+        if($db == null){
+            return false;
+        }
+        $db->beginTransaction();
+        return $db;
+    }
+
 
     public function __get($name)
     {
