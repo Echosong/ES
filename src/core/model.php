@@ -26,17 +26,21 @@ class Model
             }
         }
     }
-    
-    /**
-     * 事务处理，事务之前应该
-     */
-    public static function startTrans(){
-        $db = $GLOBALS['mysql_instances']['default'];
-        if($db == null){
-            return false;
+    /** 开启事务并处理业务 */
+    public static function transaction( $fn){
+        $db = self::startTrans();
+        try {
+            $res = $fn();
+            $db->commit();
+            return $res;
+        }catch (Throwable $e){
+            $db->rollback();
+            $code = $e->getCode();
+            if($code == 0){
+                $code = 500;
+            }
+            Helper::responseJson($e->getMessage(),$code);
         }
-        $db->beginTransaction();
-        return $db;
     }
 
 
@@ -48,7 +52,7 @@ class Model
             return $this->_model[$name];
         }
     }
-    
+
     public static function startTrans(){
         $db = $GLOBALS['mysql_instances']['default'];
         if($db == null){
@@ -57,7 +61,6 @@ class Model
         $db->beginTransaction();
         return $db;
     }
-
     public function findAll($conditions = array(), $sort = null, $fields = '*', $limit = null)
     {
         $sort = !empty($sort) ? ' ORDER BY ' . $sort : '';
@@ -86,6 +89,7 @@ class Model
 
     public function find($conditions = array(), $sort = null, $fields = '*')
     {
+
         $res = $this->findAll($conditions, $sort, $fields, 1);
         if (!empty($res)) {
             $this->_model = array_pop($res);
@@ -115,7 +119,7 @@ class Model
             $values[":M_UPDATE_" . $k] = str_ireplace('</script>','', $v);
             $set_value[] = '`' . $k . "`=" . ":M_UPDATE_" . $k;
         }
-      //  var_dump($values);
+        //  var_dump($values);
         $conditions = $this->_where($conditions);
         return $this->execute("UPDATE " . $this->table_name . " SET " . implode(', ',
                                                                                 $set_value) . $conditions["_where"],
@@ -233,6 +237,7 @@ class Model
 
     public function query($sql, $params = array())
     {
+
         return $this->execute($sql, $params, true);
     }
 
@@ -250,12 +255,16 @@ class Model
             }
             $sth = $this->_master_db->prepare($sql);
         }
+
+
         if (is_array($params) && !empty($params)) {
             foreach ($params as $k => &$v) {
                 $sth->bindParam($k, $v);
             }
         }
-        if ($sth->execute()) {
+
+        $bool = $sth->execute();
+        if ($bool) {
             return $is_query ? $sth->fetchAll(PDO::FETCH_ASSOC) : $sth->rowCount();
         }
         $err = $sth->errorInfo();
@@ -277,11 +286,9 @@ class Model
             }
         }
         if ($is_readonly) {
-            $this->_slave_db = $this->_db_instance($db_config, $db_config_key);
-            return $this->_slave_db;
+            return  $this->_slave_db = $this->_db_instance($db_config, $db_config_key);
         } else {
-            $this->_master_db = $this->_db_instance($db_config, $db_config_key);
-            return  $this->_master_db;
+            return  $this->_master_db = $this->_db_instance($db_config, $db_config_key);
         }
     }
 
@@ -315,7 +322,7 @@ class Model
         return $GLOBALS['mysql_instances'][$db_config_key];
     }
 
-    private function _wherein($sql, $inArray)
+    private function _wherein($sql, $inArray=array())
     {
         foreach ($inArray as $key => $value) {
             if (!is_array($value)) {
@@ -344,10 +351,25 @@ class Model
             $join = array();
             if (array_values($conditions) === $conditions) {
                 list($sql, $conditions) = $this->_wherein($conditions[0], $conditions[1]);
+               // $innerJoin = $conditions[2] ?? [];
             } else {
                 foreach ($conditions as $key => $condition) {
                     $optStr = substr($key, strlen($key) - 1, 1);
-                    if ($optStr == '>' || $optStr == '<') {
+                    if ($optStr == '>' ) {
+                        $optStr2 = substr($key, strlen($key) - 1, 2);
+                        if($optStr2 == '<>'){
+                            $optStr = $optStr2;
+                        }
+                        unset($conditions[$key]);
+                        $key = str_replace($optStr, '', $key);
+                    }else if ($optStr == '=' ) {
+                        $optStr2 = substr($key, strlen($key) - 1, 2);
+                        if($optStr2 == '>=' || $optStr2 == '<='){
+                            $optStr = $optStr2;
+                        }
+                        unset($conditions[$key]);
+                        $key = str_replace($optStr, '', $key);
+                    } else if ($optStr == '<') {
                         unset($conditions[$key]);
                         $key = str_replace($optStr, '', $key);
                     } else {
@@ -363,8 +385,11 @@ class Model
                     $sql = join(" AND ", $join);
                 }
             }
-
             $result["_where"] = " WHERE " . $sql;
+//            if(isset($innerJoin) && $innerJoin){
+//                $result["_where"] = " AS a INNER JOIN {$GLOBALS['prefix']}{$innerJoin[0]} AS b ON ".
+//                    "a.{$innerJoin[1]} = b.{$innerJoin[2]}".$result["_where"];
+//            }
             $result["_bindParams"] = $conditions;
         } else {
             $result["_where"] = " WHERE " . $conditions;
