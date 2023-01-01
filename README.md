@@ -224,7 +224,7 @@ public function display ($tpl_name = "", $return = false)
 
 ```
 
-#### basController
+#### baseController
 
 baseController 在每个模块里面有父类，继承系统核心Controller 主要用来处理
 
