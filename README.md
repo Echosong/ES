@@ -10,7 +10,6 @@
 [![Code Size](https://img.shields.io/badge/core-%3C400%20lines-brightgreen?style=flat-square)]()
 
 <!-- 建议补一张前台/后台截图，放在 res/ 或 doc/ 下，然后替换下面这行 -->
-![ES 示例界面](doc/screenshot.png)
 
 ## 为什么会有 ES
 
